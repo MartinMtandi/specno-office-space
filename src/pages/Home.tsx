@@ -9,6 +9,7 @@ export const Home = () => {
         <Typography variant="h1">All Offices</Typography>
       </HeaderRow>
       <Card
+        id="1"
         companyName="Specno"
         totalStaff={45}
         officeCapacity={50}
