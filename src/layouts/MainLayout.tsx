@@ -1,21 +1,49 @@
 import styled from 'styled-components'
 import { Outlet, useNavigate, useLocation } from 'react-router-dom'
 import unionIcon from '../assets/Union.svg'
+import { Modal } from '../components/Modal'
+import { StaffMemberForm } from '../components/StaffMemberForm'
+import { useState } from 'react'
 
 export const MainLayout = () => {
   const navigate = useNavigate()
   const location = useLocation()
-  const isHome = location.pathname === '/'
+  const showFloatingButton = location.pathname === '/' || location.pathname.startsWith('/office/') && !location.pathname.endsWith('/new')
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const handleFloatingButtonClick = () => {
+    if (location.pathname === '/') {
+      navigate('/office/new')
+    } else {
+      setIsModalOpen(true)
+    }
+  }
+
+  const handleModalClose = () => {
+    setIsModalOpen(false)
+  }
+
+  const handleSave = () => {
+    setIsModalOpen(false)
+  }
 
   return (
     <Wrapper>
       <Container>
         <Outlet />
       </Container>
-      {isHome && (
-        <FloatingButton onClick={() => navigate('/office')}>
-          <img src={unionIcon} alt="Add" width={20} height={20} />
-        </FloatingButton>
+      {showFloatingButton && (
+        <>
+          <FloatingButton onClick={handleFloatingButtonClick}>
+            <img src={unionIcon} alt="Add" width={20} height={20} />
+          </FloatingButton>
+          <Modal isOpen={isModalOpen} onClose={handleModalClose}>
+            <StaffMemberForm 
+              onClose={handleModalClose}
+              onSave={handleSave}
+            />
+          </Modal>
+        </>
       )}
     </Wrapper>
   )
@@ -33,7 +61,7 @@ const Wrapper = styled.div`
 `
 
 const Container = styled.div`
-  max-width: 375px;
+  max-width: 412px;
   width: 100%;
   background-color: #F8FAFC;
   display: flex;
@@ -48,7 +76,7 @@ const Container = styled.div`
 const FloatingButton = styled.button`
   position: absolute;
   bottom: 20px;
-  right: calc(50% - 170px);
+  right: calc(50% - 190px);
   width: 56px;
   height: 56px;
   border-radius: 50%;

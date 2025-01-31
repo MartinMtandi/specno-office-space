@@ -9,8 +9,10 @@ import arrowDownIcon from '../assets/arrow-down.svg'
 import editIcon from '../assets/Edit.svg'
 import { Button } from './Button'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 interface CardProps {
+  id: string
   companyName: string;
   totalStaff: number;
   phoneNumber: string;
@@ -18,19 +20,19 @@ interface CardProps {
   officeCapacity: number;
   companyAddress: string;
   accent: string;
-  onClick?: () => void;
 }
 
-export const Card = ({ 
+export const Card = ({
+  id,
   companyName,
   totalStaff,
   phoneNumber,
   emailAddress,
   officeCapacity,
   companyAddress,
-  accent,
-  onClick 
+  accent
 }: CardProps) => {
+  const navigate = useNavigate()
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleExpand = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -39,7 +41,7 @@ export const Card = ({
   };
 
   return (
-    <CardContainer borderColor={accent} onClick={onClick}>
+    <CardContainer $borderColor={accent} onClick={() => navigate(`/office/${id}`)}>
       <HeaderRow>
         <Typography variant="h2">{companyName}</Typography>
         <EditIcon src={editIcon} alt="Edit" />
@@ -79,7 +81,7 @@ export const Card = ({
   )
 }
 
-const CardContainer = styled.div<{ borderColor: string }>`
+const CardContainer = styled.div<{ $borderColor: string }>`
   background: #FFFFFF;
   border-radius: 8px;
   padding: 20px 20px 0 20px;
@@ -89,7 +91,7 @@ const CardContainer = styled.div<{ borderColor: string }>`
   display: flex;
   flex-direction: column;
   gap: 12px;
-  border-left: 12px solid ${props => props.borderColor};
+  border-left: 12px solid ${props => props.$borderColor};
 
   &:hover {
     transform: translateY(-2px);
