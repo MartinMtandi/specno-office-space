@@ -5,20 +5,63 @@ import { Button } from './Button'
 import { Input } from './Input'
 import { ColorPalette } from './ColorPalette'
 import arrowLeftIcon from '../assets/arrow-left.svg'
-import { useState } from 'react'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
 
 interface NewOfficeFormProps {
-  onSave: () => void;
+  onSave: (values: FormValues) => void;
+  error?: string | null;
 }
 
-export const NewOfficeForm = ({ onSave }: NewOfficeFormProps) => {
-  const navigate = useNavigate()
-  const [selectedColor, setSelectedColor] = useState('#FF8A65')
+interface FormValues {
+  officeName: string;
+  address: string;
+  email: string;
+  phone: string;
+  capacity: string;
+  accent: string;
+}
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    onSave()
-  }
+const validationSchema = Yup.object({
+  officeName: Yup.string()
+    .required('Office name is required')
+    .min(2, 'Office name must be at least 2 characters')
+    .max(50, 'Office name must be less than 50 characters'),
+  address: Yup.string()
+    .required('Address is required')
+    .min(5, 'Address must be at least 5 characters'),
+  email: Yup.string()
+    .required('Email is required')
+    .email('Invalid email address'),
+  phone: Yup.string()
+    .required('Phone number is required')
+    .matches(/^[0-9+\-() ]+$/, 'Invalid phone number format'),
+  capacity: Yup.number()
+    .required('Capacity is required')
+    .positive('Capacity must be a positive number')
+    .integer('Capacity must be a whole number')
+    .max(999999, 'Capacity is too large'),
+  accent: Yup.string()
+    .required('Color is required')
+})
+
+export const NewOfficeForm = ({ onSave, error }: NewOfficeFormProps) => {
+  const navigate = useNavigate()
+  
+  const formik = useFormik({
+    initialValues: {
+      officeName: '',
+      address: '',
+      email: '',
+      phone: '',
+      capacity: '',
+      accent: '#FFBE0B'
+    },
+    validationSchema,
+    onSubmit: (values) => {
+      onSave(values)
+    }
+  })
 
   return (
     <>
@@ -31,34 +74,60 @@ export const NewOfficeForm = ({ onSave }: NewOfficeFormProps) => {
         />
         <Typography variant="h2">New Office</Typography>
       </HeaderRow>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={formik.handleSubmit}>
+        {error && (
+          <ErrorMessage>
+            {error}
+          </ErrorMessage>
+        )}
         <Input
+          name="officeName"
           type="text"
           placeholder="Office Name"
-          required
+          value={formik.values.officeName}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.officeName ? formik.errors.officeName : undefined}
         />
         <Input
+          name="address"
           type="text"
           placeholder="Physical Address"
-          required
+          value={formik.values.address}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.address ? formik.errors.address : undefined}
         />
         <Input
+          name="email"
           type="email"
           placeholder="Email Address"
-          required
+          value={formik.values.email}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.email ? formik.errors.email : undefined}
         />
         <Input
+          name="phone"
           type="tel"
           placeholder="Phone Number"
-          required
+          value={formik.values.phone}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.phone ? formik.errors.phone : undefined}
         />
         <Input
+          name="capacity"
+          type="number"
           placeholder="Maximum Capacity"
-          required
+          value={formik.values.capacity}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.capacity ? formik.errors.capacity : undefined}
         />
         <ColorPalette
-          selectedColor={selectedColor}
-          onColorSelect={setSelectedColor}
+          selectedColor={formik.values.accent}
+          onColorSelect={(accent) => formik.setFieldValue('accent', accent)}
         />
         <ButtonWrapper>
           <Button
@@ -101,4 +170,13 @@ const Form = styled.form`
   max-width: 412px;
   width: 100%;
   margin: 0 auto;
+`
+
+const ErrorMessage = styled.div`
+  color: #ef4444;
+  background-color: #fee2e2;
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
 `
