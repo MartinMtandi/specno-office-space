@@ -20,7 +20,7 @@ const colors = [
   '#8338EC'
 ]
 
-export const ColorPalette = ({ selectedColor, onColorSelect }: ColorPaletteProps) => {
+export const ColorPalette = ({ selectedColor = '#FFBE0B', onColorSelect }: ColorPaletteProps) => {
   return (
     <>
       <Typography variant="h1">Office Colour</Typography>
@@ -32,6 +32,7 @@ export const ColorPalette = ({ selectedColor, onColorSelect }: ColorPaletteProps
             $isSelected={selectedColor === color}
             onClick={() => onColorSelect(color)}
             type="button"
+            aria-label={`Select color ${color}`}
           />
         ))}
       </Container>
