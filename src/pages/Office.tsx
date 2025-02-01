@@ -2,7 +2,7 @@ import { useParams, useSearchParams, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { OfficeForm } from '../components/OfficeForm'
 import styled from 'styled-components'
-import { getOfficeById, saveOffice, updateOffice, Office as OfficeType, OfficeError } from '../services/officeService'
+import { getOfficeById, saveOffice, updateOffice, deleteOffice, Office as OfficeType, OfficeError } from '../services/officeService'
 
 export const Office = () => {
   const { id } = useParams()
@@ -25,6 +25,21 @@ export const Office = () => {
 
   if (!office) {
     return null
+  }
+
+  const handleDelete = () => {
+    if (!id) return
+    
+    try {
+      deleteOffice(id)
+      navigate('/')
+    } catch (error) {
+      if (error instanceof OfficeError) {
+        setError(error.message)
+      } else {
+        setError('Failed to delete office')
+      }
+    }
   }
 
   const handleUpdate = (values: Omit<OfficeType, 'id' | 'createdAt' | 'updatedAt' | 'members'>) => {
@@ -68,6 +83,7 @@ export const Office = () => {
         initialValues={office}
         onSave={handleSave}
         onUpdate={handleUpdate}
+        onDelete={handleDelete}
         error={error}
       />
     )

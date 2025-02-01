@@ -57,9 +57,8 @@ export const OfficeFormPage = () => {
   return (
     <>
       <OfficeForm 
-        onSave={handleSave} 
-        onUpdate={handleSave}
-        error={error} 
+        onSave={handleSave}
+        error={error}
       />
     </>
   )
