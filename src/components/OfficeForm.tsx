@@ -9,8 +9,9 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
 interface OfficeFormProps {
-  onUpdate: (values: FormValues) => void;
+  onUpdate?: (values: FormValues) => void;
   onSave: (values: FormValues) => void;
+  onDelete?: () => void;
   error?: string | null;
   initialValues?: FormValues;
 }
@@ -47,7 +48,7 @@ const validationSchema = Yup.object({
     .required('Color is required')
 })
 
-export const OfficeForm = ({ onUpdate, onSave, error, initialValues }: OfficeFormProps) => {
+export const OfficeForm = ({ onUpdate, onSave, onDelete, error, initialValues }: OfficeFormProps) => {
   const navigate = useNavigate()
   
   const formik = useFormik({
@@ -61,7 +62,7 @@ export const OfficeForm = ({ onUpdate, onSave, error, initialValues }: OfficeFor
     },
     validationSchema,
     onSubmit: (values) => {
-      if (initialValues) {
+      if (initialValues && onUpdate) {
         onUpdate(values)
       } else {
         onSave(values)
@@ -144,12 +145,12 @@ export const OfficeForm = ({ onUpdate, onSave, error, initialValues }: OfficeFor
             text={initialValues ? 'Update Office' : 'Add Office'}
             variant="primary"
           />
-          {initialValues && (
+          {initialValues && onDelete && (
             <Button
               type="button"
               text="Delete Office"
               variant="secondary"
-              onClick={() => navigate(-1)}
+              onClick={onDelete}
             />
           )}
         </ButtonWrapper>
