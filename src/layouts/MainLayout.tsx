@@ -80,7 +80,7 @@ const FloatingButton = styled.button`
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: #3B82F6;
+  background: #0D4477;
   border: none;
   display: flex;
   align-items: center;
@@ -91,7 +91,7 @@ const FloatingButton = styled.button`
   z-index: 10;
 
   &:hover {
-    background: #2563EB;
+    background: #489DDA;
     transform: translateY(-2px);
     box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
   }
