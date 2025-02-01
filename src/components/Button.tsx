@@ -32,7 +32,7 @@ const ButtonContainer = styled.button<StyledButtonProps>`
       case 'primary':
         return `
           background: #489DDA;
-          border: none;
+          border: 1px solid transparent;
           color: white;
           padding: 16px;
           border-radius: 100px;
@@ -44,14 +44,16 @@ const ButtonContainer = styled.button<StyledButtonProps>`
           min-width: 200px;
 
           &:hover {
-            background: #3B7FB5;
+            background: white;
+            border-color: #489DDA;
+            color: #489DDA;
           }
         `;
       case 'secondary':
         return `
-          background: white;
-          border: 1px solid #E2E8F0;
-          color: #64748B;
+          background: transparent;
+          border: 1px solid transparent;
+          color: #489DDA;
           padding: 16px;
           text-transform: uppercase;
           border-radius: 100px;
@@ -62,6 +64,7 @@ const ButtonContainer = styled.button<StyledButtonProps>`
           &:hover {
             background: #F1F5F9;
             border-color: #CBD5E1;
+            color: #64748B;
           }
         `;
       case 'ghost':

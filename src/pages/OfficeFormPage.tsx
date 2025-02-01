@@ -1,4 +1,4 @@
-import { NewOfficeForm } from '../components/NewOfficeForm'
+import { OfficeForm } from '../components/OfficeForm'
 import { useNavigate } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 import { saveOffice, OfficeError } from '../services/officeService'
@@ -27,7 +27,7 @@ interface Office extends FormValues {
   members: Member[];
 }
 
-export const OfficeForm = () => {
+export const OfficeFormPage = () => {
   const navigate = useNavigate()
   const [error, setError] = useState<string | null>(null)
 
@@ -56,7 +56,11 @@ export const OfficeForm = () => {
 
   return (
     <>
-      <NewOfficeForm onSave={handleSave} error={error} />
+      <OfficeForm 
+        onSave={handleSave} 
+        onUpdate={handleSave}
+        error={error} 
+      />
     </>
   )
 }

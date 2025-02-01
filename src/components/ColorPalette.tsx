@@ -2,8 +2,11 @@ import styled from 'styled-components'
 import { Typography } from './Typography';
 
 interface ColorPaletteProps {
-  selectedColor: string;
-  onColorSelect: (color: string) => void;
+  name: string;
+  value: string;
+  onChange: (color: string) => void;
+  onBlur?: () => void;
+  error?: string;
 }
 
 const colors = [
@@ -20,25 +23,33 @@ const colors = [
   '#8338EC'
 ]
 
-export const ColorPalette = ({ selectedColor = '#FFBE0B', onColorSelect }: ColorPaletteProps) => {
+export const ColorPalette = ({ name, value = '#FFBE0B', onChange, onBlur }: ColorPaletteProps) => {
   return (
-    <>
+    <PaletteContainer>
       <Typography variant="h1">Office Colour</Typography>
       <Container>
         {colors.map((color) => (
           <ColorButton
             key={color}
             $color={color}
-            $isSelected={selectedColor === color}
-            onClick={() => onColorSelect(color)}
+            $isSelected={value === color}
+            onClick={() => {
+              onChange(color);
+              onBlur?.();
+            }}
             type="button"
+            name={name}
             aria-label={`Select color ${color}`}
           />
         ))}
       </Container>
-    </>
+    </PaletteContainer>
   )
 }
+
+const PaletteContainer = styled.div`
+  margin-top: 20px;
+`
 
 const ColorButton = styled.button<{ $color: string; $isSelected: boolean }>`
   width: 36px;
@@ -65,4 +76,5 @@ const Container = styled.div`
   flex-wrap: wrap;
   gap: 36px 24px;
   justify-content: center;
+  margin-top: 24px;
 `

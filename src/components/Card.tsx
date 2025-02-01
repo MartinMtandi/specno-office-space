@@ -41,12 +41,17 @@ export const Card = ({
   };
 
   return (
-    <CardContainer $borderColor={accent} onClick={() => navigate(`/office/${id}`)}>
+    <CardContainer $borderColor={accent}>
       <HeaderRow>
         <Typography variant="h2">{companyName}</Typography>
-        <EditIcon src={editIcon} alt="Edit" />
+        <EditButton onClick={(e) => {
+          e.stopPropagation();
+          navigate(`/office/${id}?mode=edit`);
+        }}>
+          <img src={editIcon} alt="Edit" />
+        </EditButton>
       </HeaderRow>
-      <InfoRow>
+      <InfoRow onClick={() => navigate(`/office/${id}`)}>
         <img src={peopleIcon} alt="people" width={20} height={20} />
         <Typography variant="body"><b>{totalStaff}</b> Staff Members in Office</Typography>
       </InfoRow>
@@ -116,15 +121,23 @@ const InfoRow = styled.div`
   }
 `
 
-const EditIcon = styled.img`
+const EditButton = styled.button`
   width: 20px;
   height: 20px;
   opacity: 0.6;
   cursor: pointer;
   transition: opacity 0.2s ease-in-out;
+  background: none;
+  border: none;
+  padding: 0;
 
   &:hover {
     opacity: 0.8;
+  }
+
+  img {
+    width: 20px;
+    height: 20px;
   }
 `
 

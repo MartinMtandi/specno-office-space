@@ -8,9 +8,11 @@ import arrowLeftIcon from '../assets/arrow-left.svg'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
-interface NewOfficeFormProps {
+interface OfficeFormProps {
+  onUpdate: (values: FormValues) => void;
   onSave: (values: FormValues) => void;
   error?: string | null;
+  initialValues?: FormValues;
 }
 
 interface FormValues {
@@ -45,11 +47,11 @@ const validationSchema = Yup.object({
     .required('Color is required')
 })
 
-export const NewOfficeForm = ({ onSave, error }: NewOfficeFormProps) => {
+export const OfficeForm = ({ onUpdate, onSave, error, initialValues }: OfficeFormProps) => {
   const navigate = useNavigate()
   
   const formik = useFormik({
-    initialValues: {
+    initialValues: initialValues || {
       officeName: '',
       address: '',
       email: '',
@@ -59,7 +61,11 @@ export const NewOfficeForm = ({ onSave, error }: NewOfficeFormProps) => {
     },
     validationSchema,
     onSubmit: (values) => {
-      onSave(values)
+      if (initialValues) {
+        onUpdate(values)
+      } else {
+        onSave(values)
+      }
     }
   })
 
@@ -69,10 +75,10 @@ export const NewOfficeForm = ({ onSave, error }: NewOfficeFormProps) => {
         <Button 
           className="back-button"
           variant="back"
-          onClick={() => navigate('/')}
+          onClick={() => navigate(-1)}
           icon={arrowLeftIcon}
         />
-        <Typography variant="h2">New Office</Typography>
+        <Typography variant="h2">{initialValues ? 'Edit Office' : 'New Office'}</Typography>
       </HeaderRow>
       <Form onSubmit={formik.handleSubmit}>
         {error && (
@@ -119,64 +125,76 @@ export const NewOfficeForm = ({ onSave, error }: NewOfficeFormProps) => {
         <Input
           name="capacity"
           type="number"
-          placeholder="Maximum Capacity"
+          placeholder="Capacity"
           value={formik.values.capacity}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           error={formik.touched.capacity ? formik.errors.capacity : undefined}
         />
         <ColorPalette
-          selectedColor={formik.values.accent}
-          onColorSelect={(accent) => formik.setFieldValue('accent', accent)}
+          name="accent"
+          value={formik.values.accent}
+          onChange={(color) => formik.setFieldValue('accent', color)}
+          onBlur={() => formik.setFieldTouched('accent')}
+          error={formik.touched.accent ? formik.errors.accent : undefined}
         />
         <ButtonWrapper>
           <Button
-            variant="primary"
             type="submit"
-            text="Add Office"
+            text={initialValues ? 'Update Office' : 'Add Office'}
+            variant="primary"
           />
+          {initialValues && (
+            <Button
+              type="button"
+              text="Delete Office"
+              variant="secondary"
+              onClick={() => navigate(-1)}
+            />
+          )}
         </ButtonWrapper>
       </Form>
     </>
   )
 }
 
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 24px;
-`
-
 const HeaderRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 24px;
   position: relative;
-  padding: 0 24px;
+  padding: 0 20px;
+  margin-bottom: 2rem;
 
   .back-button {
     position: absolute;
     left: 0;
-    display: flex;
-    flex-direction: row-reverse;
+    top: 50%;
+    transform: translateY(-50%);
   }
 `
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  max-width: 412px;
-  width: 100%;
+  gap: 16px;
+  max-width: 600px;
   margin: 0 auto;
 `
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  gap: 16px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 24px;
+`
+
 const ErrorMessage = styled.div`
-  color: #ef4444;
-  background-color: #fee2e2;
-  padding: 0.75rem;
-  border-radius: 0.375rem;
-  margin-bottom: 1rem;
-  font-size: 0.875rem;
+  color: #EF4444;
+  background: #FEE2E2;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 8px;
 `
