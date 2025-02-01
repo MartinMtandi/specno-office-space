@@ -1,15 +1,25 @@
-import styled from 'styled-components'
+import styled, { keyframes, css } from 'styled-components'
 import { Outlet, useNavigate, useLocation } from 'react-router-dom'
 import unionIcon from '../assets/Union.svg'
 import { Modal } from '../components/Modal'
 import { StaffMemberForm } from '../components/StaffMemberForm'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { getOffices } from '../services/officeService'
 
 export const MainLayout = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const showFloatingButton = location.pathname === '/' || location.pathname.startsWith('/office/') && !location.pathname.endsWith('/new')
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [shouldPulse, setShouldPulse] = useState(false)
+
+  useEffect(() => {
+    if (location.pathname === '/') {
+      setShouldPulse(getOffices().length === 0)
+    } else {
+      setShouldPulse(false)
+    }
+  }, [location.pathname])
 
   const handleFloatingButtonClick = () => {
     if (location.pathname === '/') {
@@ -34,7 +44,7 @@ export const MainLayout = () => {
       </Container>
       {showFloatingButton && (
         <>
-          <FloatingButton onClick={handleFloatingButtonClick}>
+          <FloatingButton onClick={handleFloatingButtonClick} $shouldPulse={shouldPulse}>
             <img src={unionIcon} alt="Add" width={20} height={20} />
           </FloatingButton>
           <Modal isOpen={isModalOpen} onClose={handleModalClose}>
@@ -73,14 +83,26 @@ const Container = styled.div`
   box-sizing: border-box;
 `
 
-const FloatingButton = styled.button`
+const pulseAnimation = keyframes`
+  0% {
+    box-shadow: 0 0 0 0 rgba(13, 68, 119, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(13, 68, 119, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(13, 68, 119, 0);
+  }
+`
+
+const FloatingButton = styled.button<{ $shouldPulse: boolean }>`
   position: absolute;
   bottom: 20px;
   right: calc(50% - 190px);
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: #3B82F6;
+  background: #0D4477;
   border: none;
   display: flex;
   align-items: center;
@@ -89,9 +111,12 @@ const FloatingButton = styled.button`
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease-in-out;
   z-index: 10;
+  ${props => props.$shouldPulse && css`
+    animation: ${pulseAnimation} 2s infinite;
+  `}
 
   &:hover {
-    background: #2563EB;
+    background: #489DDA;
     transform: translateY(-2px);
     box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
   }
