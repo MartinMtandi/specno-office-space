@@ -3,6 +3,10 @@ import { useState, useEffect } from 'react'
 import { OfficeForm } from '../components/OfficeForm'
 import styled from 'styled-components'
 import { getOfficeById, saveOffice, updateOffice, deleteOffice, Office as OfficeType, OfficeError } from '../services/officeService'
+import { Card } from '../components/Card'
+import { PageHeader } from '../components/PageHeader'
+import { Typography } from '../components/Typography'
+import specnoLogo from '../assets/logo/SpecnoLogo_Blue.svg'
 
 export const Office = () => {
   const { id } = useParams()
@@ -91,7 +95,28 @@ export const Office = () => {
 
   return (
     <Container>
-      Display office info: {id}
+      <PageHeader title="Office" />
+      <Card
+        id={office.id}
+        companyName={office.officeName}
+        totalStaff={office.members.length}
+        officeCapacity={parseInt(office.capacity)}
+        phoneNumber={office.phone}
+        emailAddress={office.email}
+        companyAddress={office.address}
+        accent={office.accent}
+      />
+      {office.members.length === 0 && (
+        <EmptyState>
+          <EmptyStateContent>
+            <LogoContainer>
+              <img src={specnoLogo} alt="Specno Logo" />
+            </LogoContainer>
+            <Typography variant="h2">No Staff Members</Typography>
+            <Typography>Add staff members to this office using the + button</Typography>
+          </EmptyStateContent>
+        </EmptyState>
+      )}
     </Container>
   )
 }
@@ -99,5 +124,34 @@ export const Office = () => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
+`
+
+const EmptyState = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #F8FAFC;
+  border-radius: 8px;
+  padding: 48px 24px;
+  margin-top: 16px;
+`
+
+const EmptyStateContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+  color: #6b7280;
+`
+
+const LogoContainer = styled.div`
+  width: 200px;
+  margin-bottom: 8px;
+
+  img {
+    width: 100%;
+    height: auto;
+  }
 `

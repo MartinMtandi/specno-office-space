@@ -1,12 +1,12 @@
 import styled from 'styled-components'
 import { Typography } from './Typography'
-import emailIcon from '../assets/Email.svg'
-import locationIcon from '../assets/location.svg'
-import peopleIcon from '../assets/people.svg'
-import capacityIcon from '../assets/capacity.svg'
-import phoneIcon from '../assets/Phone.svg'
-import arrowDownIcon from '../assets/arrow-down.svg'
-import editIcon from '../assets/Edit.svg'
+import emailIcon from '../assets/icons/Email.svg'
+import locationIcon from '../assets/icons/location.svg'
+import peopleIcon from '../assets/icons/people.svg'
+import capacityIcon from '../assets/icons/capacity.svg'
+import phoneIcon from '../assets/icons/Phone.svg'
+import arrowDownIcon from '../assets/icons/arrow-down.svg'
+import editIcon from '../assets/icons/Edit.svg'
 import { Button } from './Button'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -64,7 +64,7 @@ export const Card = ({
           isRotated={isExpanded}
         />
       </ButtonWrapper>
-      <ExpandableContent $isExpanded={isExpanded}>
+      <ExpandableContent $isExpanded={isExpanded} onClick={() => navigate(`/office/${id}`)}>
         <InfoRow>
           <img src={phoneIcon} alt="Phone" width={20} height={20} />
           <Typography variant="body">{phoneNumber}</Typography>

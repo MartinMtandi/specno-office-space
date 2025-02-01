@@ -1,12 +1,10 @@
-import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { Typography } from './Typography'
 import { Button } from './Button'
 import { Input } from './Input'
 import { ColorPalette } from './ColorPalette'
-import arrowLeftIcon from '../assets/arrow-left.svg'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { PageHeader } from './PageHeader'
 
 interface OfficeFormProps {
   onUpdate?: (values: FormValues) => void;
@@ -49,7 +47,6 @@ const validationSchema = Yup.object({
 })
 
 export const OfficeForm = ({ onUpdate, onSave, onDelete, error, initialValues }: OfficeFormProps) => {
-  const navigate = useNavigate()
   
   const formik = useFormik({
     initialValues: initialValues || {
@@ -72,15 +69,7 @@ export const OfficeForm = ({ onUpdate, onSave, onDelete, error, initialValues }:
 
   return (
     <>
-      <HeaderRow>
-        <Button 
-          className="back-button"
-          variant="back"
-          onClick={() => navigate(-1)}
-          icon={arrowLeftIcon}
-        />
-        <Typography variant="h2">{initialValues ? 'Edit Office' : 'New Office'}</Typography>
-      </HeaderRow>
+      <PageHeader title={initialValues ? 'Edit Office' : 'New Office'} />
       <Form onSubmit={formik.handleSubmit}>
         {error && (
           <ErrorMessage>
@@ -126,7 +115,7 @@ export const OfficeForm = ({ onUpdate, onSave, onDelete, error, initialValues }:
         <Input
           name="capacity"
           type="number"
-          placeholder="Capacity"
+          placeholder="Maximum Capacity"
           value={formik.values.capacity}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
@@ -135,45 +124,24 @@ export const OfficeForm = ({ onUpdate, onSave, onDelete, error, initialValues }:
         <ColorPalette
           name="accent"
           value={formik.values.accent}
-          onChange={(color) => formik.setFieldValue('accent', color)}
+          onChange={(color: string) => formik.setFieldValue('accent', color)}
           onBlur={() => formik.setFieldTouched('accent')}
           error={formik.touched.accent ? formik.errors.accent : undefined}
         />
         <ButtonWrapper>
-          <Button
-            type="submit"
-            text={initialValues ? 'Update Office' : 'Add Office'}
-            variant="primary"
-          />
-          {initialValues && onDelete && (
-            <Button
-              type="button"
-              text="Delete Office"
-              variant="secondary"
-              onClick={onDelete}
-            />
+          <Button type="submit" variant="primary">
+            {initialValues ? 'Save Changes' : 'Create Office'}
+          </Button>
+          {onDelete && (
+            <Button type="button" variant="danger" onClick={onDelete}>
+              Delete Office
+            </Button>
           )}
         </ButtonWrapper>
       </Form>
     </>
   )
 }
-
-const HeaderRow = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  padding: 0 20px;
-  margin-bottom: 2rem;
-
-  .back-button {
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-`
 
 const Form = styled.form`
   display: flex;

@@ -1,14 +1,15 @@
 import styled, { keyframes, css } from 'styled-components'
-import { Outlet, useNavigate, useLocation } from 'react-router-dom'
-import unionIcon from '../assets/Union.svg'
+import { Outlet, useNavigate, useLocation, useParams } from 'react-router-dom'
+import unionIcon from '../assets/icons/Union.svg'
 import { Modal } from '../components/Modal'
 import { StaffMemberForm } from '../components/StaffMemberForm'
 import { useState, useEffect } from 'react'
-import { getOffices } from '../services/officeService'
+import { getOffices, getOfficeById } from '../services/officeService'
 
 export const MainLayout = () => {
   const navigate = useNavigate()
   const location = useLocation()
+  const { id } = useParams()
   const showFloatingButton = location.pathname === '/' || location.pathname.startsWith('/office/') && !location.pathname.endsWith('/new')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [shouldPulse, setShouldPulse] = useState(false)
@@ -16,10 +17,13 @@ export const MainLayout = () => {
   useEffect(() => {
     if (location.pathname === '/') {
       setShouldPulse(getOffices().length === 0)
+    } else if (id) {
+      const office = getOfficeById(id)
+      setShouldPulse(office?.members.length === 0)
     } else {
       setShouldPulse(false)
     }
-  }, [location.pathname])
+  }, [location.pathname, id])
 
   const handleFloatingButtonClick = () => {
     if (location.pathname === '/') {
@@ -85,13 +89,13 @@ const Container = styled.div`
 
 const pulseAnimation = keyframes`
   0% {
-    box-shadow: 0 0 0 0 rgba(13, 68, 119, 0.4);
+    box-shadow: 0 0 0 0 rgba(72, 157, 218, 0.4);
   }
   70% {
-    box-shadow: 0 0 0 15px rgba(13, 68, 119, 0);
+    box-shadow: 0 0 0 15px rgba(72, 157, 218, 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(13, 68, 119, 0);
+    box-shadow: 0 0 0 0 rgba(72, 157, 218, 0);
   }
 `
 
@@ -104,24 +108,20 @@ const FloatingButton = styled.button<{ $shouldPulse: boolean }>`
   border-radius: 50%;
   background: #0D4477;
   border: none;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease-in-out;
-  z-index: 10;
-  ${props => props.$shouldPulse && css`
-    animation: ${pulseAnimation} 2s infinite;
-  `}
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  animation: ${props => props.$shouldPulse ? css`${pulseAnimation} 2s infinite` : 'none'};
 
   &:hover {
-    background: #489DDA;
-    transform: translateY(-2px);
-    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
+    transform: scale(1.1);
   }
 
-  @media (max-width: 560px) {
-    right: 40px;
+  img {
+    width: 20px;
+    height: 20px;
   }
 `

@@ -5,7 +5,7 @@ interface ButtonProps {
   icon?: string;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   isRotated?: boolean;
-  variant?: 'primary' | 'secondary' | 'ghost' | 'back' | 'close';
+  variant?: 'primary' | 'secondary' | 'ghost' | 'back' | 'close' | 'danger';
   children?: React.ReactNode;
   type?: 'button' | 'submit' | 'reset';
   className?: string;
@@ -67,6 +67,24 @@ const ButtonContainer = styled.button<StyledButtonProps>`
             color: #64748B;
           }
         `;
+      case 'danger':
+        return `
+          background: transparent;
+          border: 1px solid transparent;
+          color: #489DDA;
+          padding: 16px;
+          text-transform: uppercase;
+          border-radius: 100px;
+          font-weight: 500;
+          font-size: 14px;
+          justify-content: center;
+
+          &:hover {
+            background: #FEE2E2;
+            border-color: #EF4444;
+            color: #B91C1C;
+          }
+        `;
       case 'ghost':
         return `
           background: none;
@@ -102,21 +120,15 @@ const ButtonContainer = styled.button<StyledButtonProps>`
         return `
           background: none;
           border: none;
-          padding: 4px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          padding: 8px;
+          color: #64748B;
 
           &:hover {
-            opacity: 0.8;
+            color: #334155;
           }
         `;
       default:
-        return `
-          background: none;
-          border: none;
-          padding: 8px;
-        `;
+        return '';
     }
   }}
 `
@@ -134,19 +146,15 @@ export const Button = ({
 }: ButtonProps) => {
   return (
     <ButtonContainer 
-      onClick={onClick} 
-      $isRotated={isRotated} 
+      onClick={onClick}
+      $isRotated={isRotated}
       $variant={variant}
       type={type}
       className={className}
       style={style}
     >
-      {children || (
-        <>
-          {text}
-          {icon && <img src={icon} alt={text || 'button icon'} />}
-        </>
-      )}
+      {icon && <img src={icon} alt="" width={20} height={20} />}
+      {text || children}
     </ButtonContainer>
   )
 }
