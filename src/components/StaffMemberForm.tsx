@@ -174,6 +174,10 @@ const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
+  position: relative;
+  background-color: white;
+  border-radius: 8px;
+  padding: 24px;
 `
 
 const HeaderRow = styled.div`
