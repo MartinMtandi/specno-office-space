@@ -27,7 +27,7 @@ const avatars = [
 ]
 
 export const AvatarPalette = ({ name, value, onChange }: AvatarPaletteProps) => {
-  console.log(value)
+
   return (
     <PaletteContainer>
       <Typography variant="h2">Avatar</Typography>

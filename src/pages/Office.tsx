@@ -7,6 +7,8 @@ import { Card } from '../components/Card'
 import { PageHeader } from '../components/PageHeader'
 import { Typography } from '../components/Typography'
 import specnoLogo from '../assets/logo/SpecnoLogo_Blue.svg'
+import { Modal } from '../components/Modal'
+import { StaffMemberForm } from '../components/StaffMemberForm'
 
 export const Office = () => {
   const { id } = useParams()
@@ -15,6 +17,8 @@ export const Office = () => {
   const isEditMode = searchParams.get('mode') === 'edit'
   const [office, setOffice] = useState<OfficeType | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [showAddMemberModal, setShowAddMemberModal] = useState(false)
+  const [lastUpdate, setLastUpdate] = useState(Date.now())
 
   useEffect(() => {
     if (id) {
@@ -25,11 +29,18 @@ export const Office = () => {
         navigate('/')
       }
     }
-  }, [id, navigate])
+  }, [id, navigate, lastUpdate])
 
-  if (!office) {
-    return null
-  }
+  useEffect(() => {
+    const handleOfficeUpdate = () => {
+      setLastUpdate(Date.now())
+    }
+
+    window.addEventListener('officeUpdated', handleOfficeUpdate)
+    return () => {
+      window.removeEventListener('officeUpdated', handleOfficeUpdate)
+    }
+  }, [])
 
   const handleDelete = () => {
     if (!id) return
@@ -49,10 +60,16 @@ export const Office = () => {
   const handleUpdate = (values: Omit<OfficeType, 'id' | 'createdAt' | 'updatedAt' | 'members'>) => {
     setError(null)
     try {
+      if (!office) return;
+      
       updateOffice({
-        ...office,
         ...values,
+        id: office.id,
+        createdAt: office.createdAt,
+        updatedAt: new Date().toISOString(),
+        members: office.members || []
       })
+      setLastUpdate(Date.now())
       navigate(`/office/${id}`)
     } catch (error) {
       if (error instanceof OfficeError) {
@@ -66,11 +83,16 @@ export const Office = () => {
   const handleSave = (values: Omit<OfficeType, 'id' | 'createdAt' | 'updatedAt' | 'members'>) => {
     setError(null)
     try {
+      if (!office) return;
+      
       saveOffice({
-        ...office,
         ...values,
-        updatedAt: new Date().toISOString()
+        id: office.id,
+        createdAt: office.createdAt,
+        updatedAt: new Date().toISOString(),
+        members: office.members || []
       })
+      setLastUpdate(Date.now())
       navigate(`/office/${id}`)
     } catch (error) {
       if (error instanceof OfficeError) {
@@ -79,6 +101,24 @@ export const Office = () => {
         setError('Failed to save office')
       }
     }
+  }
+
+  const handleAddMember = () => {
+    if (office) {
+      const updatedOffice = getOfficeById(office.id)
+      if (updatedOffice) {
+        setOffice({
+          ...updatedOffice,
+          members: updatedOffice.members || []
+        })
+        setLastUpdate(Date.now())
+      }
+    }
+    setShowAddMemberModal(false)
+  }
+
+  if (!office) {
+    return null
   }
 
   if (isEditMode) {
@@ -116,6 +156,18 @@ export const Office = () => {
             <Typography>Add staff members to this office using the + button</Typography>
           </EmptyStateContent>
         </EmptyState>
+      )}
+      {showAddMemberModal && (
+        <Modal 
+          isOpen={showAddMemberModal} 
+          onClose={() => setShowAddMemberModal(false)}
+        >
+          <StaffMemberForm 
+            onClose={() => setShowAddMemberModal(false)} 
+            onSave={handleAddMember}
+            office={office}
+          />
+        </Modal>
       )}
     </Container>
   )

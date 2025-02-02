@@ -4,7 +4,7 @@ import unionIcon from '../assets/icons/Union.svg'
 import { Modal } from '../components/Modal'
 import { StaffMemberForm } from '../components/StaffMemberForm'
 import { useState, useEffect } from 'react'
-import { getOffices, getOfficeById } from '../services/officeService'
+import { getOffices, getOfficeById, Office } from '../services/officeService'
 
 export const MainLayout = () => {
   const navigate = useNavigate()
@@ -13,22 +13,26 @@ export const MainLayout = () => {
   const showFloatingButton = location.pathname === '/' || location.pathname.startsWith('/office/') && !location.pathname.endsWith('/new')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [shouldPulse, setShouldPulse] = useState(false)
+  const [currentOffice, setCurrentOffice] = useState<Office | null>(null)
 
   useEffect(() => {
     if (location.pathname === '/') {
       setShouldPulse(getOffices().length === 0)
+      setCurrentOffice(null)
     } else if (id) {
       const office = getOfficeById(id)
       setShouldPulse(office?.members.length === 0)
+      setCurrentOffice(office || null)
     } else {
       setShouldPulse(false)
+      setCurrentOffice(null)
     }
   }, [location.pathname, id])
 
   const handleFloatingButtonClick = () => {
     if (location.pathname === '/') {
       navigate('/office/new')
-    } else {
+    } else if (currentOffice) {
       setIsModalOpen(true)
     }
   }
@@ -38,6 +42,11 @@ export const MainLayout = () => {
   }
 
   const handleSave = () => {
+    if (id) {
+      const updatedOffice = getOfficeById(id)
+      setCurrentOffice(updatedOffice || null)
+      window.dispatchEvent(new Event('officeUpdated'))
+    }
     setIsModalOpen(false)
   }
 
@@ -51,12 +60,15 @@ export const MainLayout = () => {
           <FloatingButton onClick={handleFloatingButtonClick} $shouldPulse={shouldPulse}>
             <img src={unionIcon} alt="Add" width={20} height={20} />
           </FloatingButton>
-          <Modal isOpen={isModalOpen} onClose={handleModalClose}>
-            <StaffMemberForm 
-              onClose={handleModalClose}
-              onSave={handleSave}
-            />
-          </Modal>
+          {currentOffice && (
+            <Modal isOpen={isModalOpen} onClose={handleModalClose}>
+              <StaffMemberForm 
+                onClose={handleModalClose}
+                onSave={handleSave}
+                office={currentOffice}
+              />
+            </Modal>
+          )}
         </>
       )}
     </Wrapper>

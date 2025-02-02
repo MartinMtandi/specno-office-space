@@ -6,10 +6,14 @@ import { AvatarPalette } from './AvatarPalette'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useState } from 'react'
+import arrowLeft from '../assets/icons/arrow-left.svg'
+import { v4 as uuidv4 } from 'uuid'
+import { Office, updateOffice } from '../services/officeService'
 
 interface StaffMemberFormProps {
   onClose: () => void
   onSave: () => void
+  office: Office
 }
 
 interface StaffMemberValues {
@@ -18,14 +22,20 @@ interface StaffMemberValues {
   avatar: string
 }
 
-const validationSchema = Yup.object().shape({
+const validationSchemaStep1 = Yup.object().shape({
+  firstName: Yup.string().required('First name is required'),
+  lastName: Yup.string().required('Last name is required'),
+})
+
+const validationSchemaStep2 = Yup.object().shape({
   firstName: Yup.string().required('First name is required'),
   lastName: Yup.string().required('Last name is required'),
   avatar: Yup.string().required('Please select an avatar')
 })
 
-export const StaffMemberForm = ({ onClose, onSave }: StaffMemberFormProps) => {
-  const [step, setStep] = useState(2)
+export const StaffMemberForm = ({ onClose, onSave, office }: StaffMemberFormProps) => {
+  const [step, setStep] = useState(1)
+  const [error, setError] = useState<string | null>(null)
 
   const formik = useFormik<StaffMemberValues>({
     initialValues: {
@@ -33,26 +43,54 @@ export const StaffMemberForm = ({ onClose, onSave }: StaffMemberFormProps) => {
       lastName: '',
       avatar: ''
     },
-    validationSchema,
-    onSubmit: (values) => {
+    validationSchema: step === 1 ? validationSchemaStep1 : validationSchemaStep2,
+    validateOnMount: false,
+    onSubmit: async (values) => {
       if (step === 1) {
-        if (formik.values.firstName && formik.values.lastName) {
+        if (values.firstName && values.lastName) {
           setStep(2)
         }
         return
       }
-      onSave()
+
+      try {
+        const newMember = {
+          id: uuidv4(),
+          firstName: values.firstName,
+          lastName: values.lastName,
+          avatar: values.avatar
+        }
+
+        const updatedOffice = {
+          ...office,
+          members: [...(office.members || []), newMember],
+          updatedAt: new Date().toISOString()
+        }
+
+        await updateOffice(updatedOffice)
+        onSave()
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to add staff member')
+      }
     }
   })
 
   return (
     <ModalContent>
       <HeaderRow>
-        <ModalHeader>New Staff Member</ModalHeader>
+        <HeaderLeft>
+          {step === 2 && (
+            <BackButton onClick={() => setStep(1)} type="button" aria-label="Go back">
+              <img src={arrowLeft} alt="" width={24} height={24} />
+            </BackButton>
+          )}
+          <ModalHeader>New Staff Member</ModalHeader>
+        </HeaderLeft>
         <CloseButton onClick={onClose} />
       </HeaderRow>
       <ModalBody>
         <Form onSubmit={formik.handleSubmit}>
+          {error && <ErrorMessage>{error}</ErrorMessage>}
           {step === 1 ? (
             <>
               <Input
@@ -104,6 +142,12 @@ const HeaderRow = styled.div`
   align-items: center;
 `
 
+const HeaderLeft = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+`
+
 const ModalHeader = styled.h2`
   font-size: 24px;
   color: #1E293B;
@@ -126,4 +170,30 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 24px;
+`
+
+const BackButton = styled.button`
+  background: none;
+  border: none;
+  padding: 8px 8px 8px 0px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #f1f5f9;
+  }
+
+  img {
+    display: block;
+  }
+`
+
+const ErrorMessage = styled.div`
+  color: #ef4444;
+  font-size: 14px;
+  margin-bottom: 16px;
 `
