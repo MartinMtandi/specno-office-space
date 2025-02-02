@@ -17,7 +17,7 @@ interface Member {
   id: string;
   firstName: string;
   lastName: string;
-  avatar?: string;
+  avatar: string;
 }
 
 interface Office extends FormValues {
