@@ -41,7 +41,10 @@ export const StaffMemberActions = ({ isOpen, onClose, member, onEdit, onDelete }
             </Button>
             <Button 
               variant="primary" 
-              onClick={() => setShowDeleteConfirmation(false)}
+              onClick={() => {
+                setShowDeleteConfirmation(false)
+                onClose()
+              }}
             >
               Keep Member
             </Button>

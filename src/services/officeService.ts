@@ -102,3 +102,65 @@ export const getOfficeById = (id: string): Office | undefined => {
     return undefined
   }
 }
+
+export const addMemberToOffice = (officeId: string, member: Member): void => {
+  try {
+    const offices = getOffices()
+    const officeIndex = offices.findIndex(office => office.id === officeId)
+    
+    if (officeIndex === -1) {
+      throw new OfficeError('Office not found')
+    }
+
+    offices[officeIndex].members.push(member)
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(offices))
+  } catch (error) {
+    console.error('Error adding member to office:', error)
+    throw error
+  }
+}
+
+export const removeMemberFromOffice = (officeId: string, memberId: string): void => {
+  try {
+    const offices = getOffices()
+    const officeIndex = offices.findIndex(office => office.id === officeId)
+    
+    if (officeIndex === -1) {
+      throw new OfficeError('Office not found')
+    }
+
+    const office = offices[officeIndex]
+    office.members = office.members.filter(member => member.id !== memberId)
+    
+    offices[officeIndex] = office
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(offices))
+  } catch (error) {
+    console.error('Error removing member from office:', error)
+    throw error
+  }
+}
+
+export const updateMember = (officeId: string, updatedMember: Member): void => {
+  try {
+    const offices = getOffices()
+    const officeIndex = offices.findIndex(office => office.id === officeId)
+    
+    if (officeIndex === -1) {
+      throw new OfficeError('Office not found')
+    }
+
+    const office = offices[officeIndex]
+    const memberIndex = office.members.findIndex(member => member.id === updatedMember.id)
+    
+    if (memberIndex === -1) {
+      throw new OfficeError('Member not found')
+    }
+
+    office.members[memberIndex] = updatedMember
+    offices[officeIndex] = office
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(offices))
+  } catch (error) {
+    console.error('Error updating member:', error)
+    throw error
+  }
+}

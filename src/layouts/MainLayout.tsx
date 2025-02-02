@@ -64,7 +64,7 @@ export const MainLayout = () => {
             <Modal isOpen={isModalOpen} onClose={handleModalClose}>
               <StaffMemberForm 
                 onClose={handleModalClose}
-                onSave={handleSave}
+                onSubmit={handleSave}
                 office={currentOffice}
               />
             </Modal>

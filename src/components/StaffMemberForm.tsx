@@ -8,12 +8,13 @@ import * as Yup from 'yup'
 import { useState } from 'react'
 import arrowLeft from '../assets/icons/arrow-left.svg'
 import { v4 as uuidv4 } from 'uuid'
-import { Office, updateOffice } from '../services/officeService'
+import { Office, updateOffice, Member } from '../services/officeService'
 
 interface StaffMemberFormProps {
-  onClose: () => void
-  onSave: () => void
-  office: Office
+  onClose: () => void;
+  onSubmit: (member: Member) => void;
+  office: Office;
+  initialValues?: Member;
 }
 
 interface StaffMemberValues {
@@ -33,15 +34,15 @@ const validationSchemaStep2 = Yup.object().shape({
   avatar: Yup.string().required('Please select an avatar')
 })
 
-export const StaffMemberForm = ({ onClose, onSave, office }: StaffMemberFormProps) => {
+export const StaffMemberForm = ({ onClose, onSubmit, office, initialValues }: StaffMemberFormProps) => {
   const [step, setStep] = useState(1)
   const [error, setError] = useState<string | null>(null)
 
   const formik = useFormik<StaffMemberValues>({
     initialValues: {
-      firstName: '',
-      lastName: '',
-      avatar: ''
+      firstName: initialValues?.firstName || '',
+      lastName: initialValues?.lastName || '',
+      avatar: initialValues?.avatar || ''
     },
     validationSchema: step === 1 ? validationSchemaStep1 : validationSchemaStep2,
     validateOnMount: false,
@@ -75,7 +76,7 @@ export const StaffMemberForm = ({ onClose, onSave, office }: StaffMemberFormProp
         }
 
         await updateOffice(updatedOffice)
-        onSave()
+        onSubmit(newMember)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to add staff member')
       }

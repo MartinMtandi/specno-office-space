@@ -2,7 +2,7 @@ import { useParams, useSearchParams, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { OfficeForm } from '../components/OfficeForm'
 import styled from 'styled-components'
-import { getOfficeById, saveOffice, updateOffice, deleteOffice, Office as OfficeType, OfficeError, addMemberToOffice, updateMember, removeMemberFromOffice, Member } from '../services/officeService'
+import { getOfficeById, saveOffice, updateOffice, deleteOffice, Office as OfficeType, OfficeError, updateMember, removeMemberFromOffice, Member } from '../services/officeService'
 import { Card } from '../components/Card'
 import { PageHeader } from '../components/PageHeader'
 import { Typography } from '../components/Typography'
@@ -127,8 +127,9 @@ export const Office = () => {
 
   const handleUpdateStaff = (member: Member) => {
     if (office && selectedMember) {
-      updateMember(office.id, selectedMember.id, member)
-      setOffice(getOfficeById(office.id))
+      updateMember(office.id, member)
+      const updatedOffice = getOfficeById(office.id)
+      setOffice(updatedOffice || null)
       setIsEditingStaff(false)
       setSelectedMember(null)
     }
@@ -137,7 +138,8 @@ export const Office = () => {
   const handleDeleteStaff = (member: Member) => {
     if (office) {
       removeMemberFromOffice(office.id, member.id)
-      setOffice(getOfficeById(office.id))
+      const updatedOffice = getOfficeById(office.id)
+      setOffice(updatedOffice || null)
     }
   }
 
@@ -204,7 +206,7 @@ export const Office = () => {
           <StaffMemberForm
             office={office}
             onClose={() => setShowAddMemberModal(false)}
-            onSave={handleAddMember}
+            onSubmit={handleAddMember}
           />
         </Modal>
       )}
