@@ -10,6 +10,7 @@ import specnoLogo from '../assets/logo/SpecnoLogo_Blue.svg'
 import { Modal } from '../components/Modal'
 import { StaffMemberForm } from '../components/StaffMemberForm'
 import { StaffList } from '../components/StaffList'
+import { DeleteOfficeModal } from '../components/DeleteOfficeModal'
 
 export const Office = () => {
   const { id } = useParams()
@@ -22,6 +23,7 @@ export const Office = () => {
   const [lastUpdate, setLastUpdate] = useState(Date.now())
   const [isEditingStaff, setIsEditingStaff] = useState(false)
   const [selectedMember, setSelectedMember] = useState<Member | null>(null)
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false)
 
   useEffect(() => {
     if (id) {
@@ -50,6 +52,7 @@ export const Office = () => {
 
     try {
       deleteOffice(id)
+      setShowDeleteConfirmation(false)
       navigate('/')
     } catch (error) {
       if (error instanceof OfficeError) {
@@ -58,6 +61,10 @@ export const Office = () => {
         setError('Failed to delete office')
       }
     }
+  }
+
+  const handleDeleteClick = () => {
+    setShowDeleteConfirmation(true)
   }
 
   const handleUpdate = (values: Omit<OfficeType, 'id' | 'createdAt' | 'updatedAt' | 'members'>) => {
@@ -161,9 +168,18 @@ export const Office = () => {
           }}
           onUpdate={handleUpdate}
           onSave={handleSave}
-          onDelete={handleDelete}
+          onDelete={handleDeleteClick}
           error={error}
         />
+        {showDeleteConfirmation && office && (
+          <Modal isOpen={showDeleteConfirmation} onClose={() => setShowDeleteConfirmation(false)}>
+            <DeleteOfficeModal
+              officeName={office.officeName}
+              onDelete={handleDelete}
+              onKeep={() => setShowDeleteConfirmation(false)}
+            />
+          </Modal>
+        )}
       </Container>
     )
   }
