@@ -44,7 +44,7 @@ const Overlay = styled.div`
 `
 
 const Content = styled.div`
-  background: white;
+  background: #F8FAFC;;
   padding: 24px;
   border-radius: 8px;
   width: 90%;

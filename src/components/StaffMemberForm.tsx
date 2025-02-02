@@ -1,12 +1,50 @@
 import styled from 'styled-components'
 import { CloseButton } from './CloseButton'
+import { Button } from './Button'
+import { Input } from './Input'
+import { AvatarPalette } from './AvatarPalette'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+import { useState } from 'react'
 
 interface StaffMemberFormProps {
   onClose: () => void
   onSave: () => void
 }
 
+interface StaffMemberValues {
+  firstName: string
+  lastName: string
+  avatar: string
+}
+
+const validationSchema = Yup.object().shape({
+  firstName: Yup.string().required('First name is required'),
+  lastName: Yup.string().required('Last name is required'),
+  avatar: Yup.string().required('Please select an avatar')
+})
+
 export const StaffMemberForm = ({ onClose, onSave }: StaffMemberFormProps) => {
+  const [step, setStep] = useState(2)
+
+  const formik = useFormik<StaffMemberValues>({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      avatar: ''
+    },
+    validationSchema,
+    onSubmit: (values) => {
+      if (step === 1) {
+        if (formik.values.firstName && formik.values.lastName) {
+          setStep(2)
+        }
+        return
+      }
+      onSave()
+    }
+  })
+
   return (
     <ModalContent>
       <HeaderRow>
@@ -14,18 +52,40 @@ export const StaffMemberForm = ({ onClose, onSave }: StaffMemberFormProps) => {
         <CloseButton onClick={onClose} />
       </HeaderRow>
       <ModalBody>
-        <Form>
-          <FormGroup>
-            <Input type="text" placeholder="First Name" />
-          </FormGroup>
-          <FormGroup>
-            <Input type="text" placeholder="Last Name" />
-          </FormGroup>
-          <ButtonGroup>
-            <SaveButton onClick={onSave}>
-              NEXT
-            </SaveButton>
-          </ButtonGroup>
+        <Form onSubmit={formik.handleSubmit}>
+          {step === 1 ? (
+            <>
+              <Input
+                name="firstName"
+                placeholder="First Name"
+                value={formik.values.firstName}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.firstName ? formik.errors.firstName : undefined}
+              />
+              <Input
+                name="lastName"
+                placeholder="Last Name"
+                value={formik.values.lastName}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.lastName ? formik.errors.lastName : undefined}
+              />
+            </>
+          ) : (
+            <AvatarPalette
+              name="avatar"
+              value={formik.values.avatar}
+              onChange={(avatar: string) => formik.setFieldValue('avatar', avatar)}
+              onBlur={() => formik.setFieldTouched('avatar')}
+              error={formik.touched.avatar ? formik.errors.avatar : undefined}
+            />
+          )}
+          <ButtonWrapper>
+            <Button type="submit" variant="primary">
+              {step === 1 ? 'Next' : 'Add Staff Member'}
+            </Button>
+          </ButtonWrapper>
         </Form>
       </ModalBody>
     </ModalContent>
@@ -62,51 +122,8 @@ const Form = styled.form`
   gap: 16px;
 `
 
-const FormGroup = styled.div`
+const ButtonWrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 8px;
-`
-
-const Input = styled.input`
-  padding: 8px 12px;
-  border: 1px solid #E2E8F0;
-  border-radius: 4px;
-  font-size: 16px;
-  color: #334155;
-  transition: border-color 0.2s ease-in-out;
-
-  &:focus {
-    outline: none;
-    border-color: #3B82F6;
-  }
-
-  &::placeholder {
-    color: #94A3B8;
-  }
-`
-
-const ButtonGroup = styled.div`
-  display: flex;
-  gap: 16px;
-  margin-top: 8px;
-`
-
-const Button = styled.button`
-  flex: 1;
-  padding: 12px;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-`
-
-const SaveButton = styled(Button)`
-  background: #3B82F6;
-  border: none;
-  color: white;
-
-  &:hover {
-    background: #2563EB;
-  }
+  justify-content: center;
+  margin-top: 24px;
 `
