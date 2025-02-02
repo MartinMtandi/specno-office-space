@@ -5,7 +5,7 @@ interface ButtonProps {
   icon?: string;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   isRotated?: boolean;
-  variant?: 'primary' | 'secondary' | 'ghost' | 'back' | 'close' | 'danger';
+  variant?: 'primary' | 'secondary' | 'ghost' | 'back' | 'close' | 'danger' | 'warning';
   children?: React.ReactNode;
   type?: 'button' | 'submit' | 'reset';
   className?: string;
@@ -44,9 +44,9 @@ const ButtonContainer = styled.button<StyledButtonProps>`
           min-width: 200px;
 
           &:hover {
-            background: white;
+            background: #E5F2FB;
             border-color: #489DDA;
-            color: #489DDA;
+            color: #2B82C9;
           }
         `;
       case 'secondary':
@@ -69,22 +69,44 @@ const ButtonContainer = styled.button<StyledButtonProps>`
         `;
       case 'danger':
         return `
-          background: transparent;
+          background: #F44336;
           border: 1px solid transparent;
-          color: #489DDA;
+          color: white;
           padding: 16px;
           text-transform: uppercase;
           border-radius: 100px;
           font-weight: 500;
           font-size: 14px;
           justify-content: center;
+          width: fit-content;
+          min-width: 200px;
 
           &:hover {
-            background: #FEE2E2;
-            border-color: #EF4444;
-            color: #B91C1C;
+              background: #FEE2E2;
+              border-color: #EF4444;
+              color: #B91C1C;
           }
         `;
+      case 'warning':
+          return `
+            background: transparent;
+            border: 1px solid transparent;
+            color: #489DDA;
+            padding: 16px;
+            text-transform: uppercase;
+            border-radius: 100px;
+            font-weight: 500;
+            font-size: 14px;
+            justify-content: center;
+            width: fit-content;
+            min-width: 200px;
+  
+            &:hover {
+              background: #FEE2E2;
+              border-color: #EF4444;
+              color: #B91C1C;
+            }
+          `;
       case 'ghost':
         return `
           background: none;

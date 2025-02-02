@@ -130,10 +130,10 @@ export const OfficeForm = ({ onUpdate, onSave, onDelete, error, initialValues }:
         />
         <ButtonWrapper>
           <Button type="submit" variant="primary">
-            {initialValues ? 'Save Changes' : 'Create Office'}
+            {initialValues ? 'Update Office' : 'Add Office'}
           </Button>
           {onDelete && (
-            <Button type="button" variant="danger" onClick={onDelete}>
+            <Button type="button" variant="warning" onClick={onDelete}>
               Delete Office
             </Button>
           )}
