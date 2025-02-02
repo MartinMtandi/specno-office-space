@@ -139,6 +139,10 @@ export const StaffMemberForm = ({ onClose, onSubmit, office, initialValues }: St
               error={formik.touched.avatar ? formik.errors.avatar : undefined}
             />
           )}
+          <CarouselDots>
+            <Dot $active={step === 1} />
+            <Dot $active={step === 2} />
+          </CarouselDots>
           <ButtonWrapper>
             <Button type="submit" variant="primary">
               {step === 1 ? 'Next' : initialValues ? 'Update Staff Member' : 'Add Staff Member'}
@@ -149,6 +153,22 @@ export const StaffMemberForm = ({ onClose, onSubmit, office, initialValues }: St
     </ModalContent>
   )
 }
+
+const CarouselDots = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 16px;
+`
+
+const Dot = styled.div<{ $active: boolean }>`
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: ${props => props.$active ? '#489DDA' : 'transparent'};
+  border: 2px solid #489DDA;
+  transition: background-color 0.3s ease;
+`
 
 const ModalContent = styled.div`
   display: flex;

@@ -19,14 +19,26 @@ export const MainLayout = () => {
     if (location.pathname === '/') {
       setShouldPulse(getOffices().length === 0)
       setCurrentOffice(null)
-    } else if (id) {
+      return
+    }
+    
+    if (!id) {
+      setShouldPulse(false)
+      setCurrentOffice(null)
+      return
+    }
+
+    const updateOfficeData = () => {
       const office = getOfficeById(id)
       setShouldPulse(office?.members.length === 0)
       setCurrentOffice(office || null)
-    } else {
-      setShouldPulse(false)
-      setCurrentOffice(null)
     }
+
+    updateOfficeData()
+
+    const intervalId = setInterval(updateOfficeData, 500)
+
+    return () => clearInterval(intervalId)
   }, [location.pathname, id])
 
   const handleFloatingButtonClick = () => {
