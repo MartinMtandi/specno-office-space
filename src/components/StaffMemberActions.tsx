@@ -40,7 +40,7 @@ export const StaffMemberActions = ({ isOpen, onClose, member, onEdit, onDelete }
               Delete Member
             </Button>
             <Button 
-              variant="primary" 
+              variant="secondary" 
               onClick={() => {
                 setShowDeleteConfirmation(false)
                 onClose()
