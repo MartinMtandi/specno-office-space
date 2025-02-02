@@ -10,6 +10,8 @@ import specnoLogo from '../assets/logo/SpecnoLogo_Blue.svg'
 import { Modal } from '../components/Modal'
 import { StaffMemberForm } from '../components/StaffMemberForm'
 import { StaffList } from '../components/StaffList'
+import { Input } from '../components/Input'
+import searchIcon from '../assets/icons/Search.svg'
 
 export const Office = () => {
   const { id } = useParams()
@@ -22,6 +24,7 @@ export const Office = () => {
   const [lastUpdate, setLastUpdate] = useState(Date.now())
   const [isEditingStaff, setIsEditingStaff] = useState(false)
   const [selectedMember, setSelectedMember] = useState<Member | null>(null)
+  const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
     if (id) {
@@ -184,6 +187,19 @@ export const Office = () => {
         companyAddress={office.address}
         accent={office.accent}
       />
+      {office.members.length > 0 && (
+        <SearchContainer>
+          <Input
+            name="search"
+            type="text"
+            placeholder="Search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            icon={<img src={searchIcon} alt="Search" />}
+            iconPosition="right"
+          />
+        </SearchContainer>
+      )}
       {office.members.length === 0 ? (
         <EmptyState>
           <EmptyStateContent>
@@ -194,7 +210,13 @@ export const Office = () => {
           </EmptyStateContent>
         </EmptyState>
       ) : <StaffList
-        members={office.members}
+        members={office.members.filter(member => {
+          const searchTerm = searchQuery.toLowerCase();
+          return (
+            (member.firstName || '').toLowerCase().includes(searchTerm) ||
+            (member.lastName || '').toLowerCase().includes(searchTerm)
+          );
+        })}
         onEditMember={handleEditStaff}
         onDeleteMember={handleDeleteStaff}
       />}
@@ -237,6 +259,12 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+`
+
+const SearchContainer = styled.div`
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
 `
 
 const EmptyState = styled.div`
