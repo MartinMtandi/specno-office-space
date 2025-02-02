@@ -145,7 +145,10 @@ export const Office = () => {
 
   return (
     <Container>
-      <PageHeader title="Office" />
+      <PageHeader 
+        title="Office" 
+        onBack={() => navigate('/')}
+      />
       <Card
         id={office.id}
         companyName={office.officeName}
