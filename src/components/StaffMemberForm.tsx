@@ -8,7 +8,7 @@ import * as Yup from 'yup'
 import { useState } from 'react'
 import arrowLeft from '../assets/icons/arrow-left.svg'
 import { v4 as uuidv4 } from 'uuid'
-import { Office, updateOffice, Member } from '../services/officeService'
+import { Office, updateOffice, updateMember, Member } from '../services/officeService'
 
 interface StaffMemberFormProps {
   onClose: () => void;
@@ -62,23 +62,34 @@ export const StaffMemberForm = ({ onClose, onSubmit, office, initialValues }: St
           return
         }
 
-        const newMember = {
-          id: uuidv4(),
-          firstName: values.firstName,
-          lastName: values.lastName,
-          avatar: values.avatar
+        if (initialValues) {
+          // Update existing member
+          const updatedMember = {
+            ...initialValues,
+            firstName: values.firstName,
+            lastName: values.lastName,
+            avatar: values.avatar
+          }
+          await updateMember(office.id, updatedMember)
+          onSubmit(updatedMember)
+        } else {
+          // Create new member
+          const newMember = {
+            id: uuidv4(),
+            firstName: values.firstName,
+            lastName: values.lastName,
+            avatar: values.avatar
+          }
+          const updatedOffice = {
+            ...office,
+            members: [...(office.members || []), newMember],
+            updatedAt: new Date().toISOString()
+          }
+          await updateOffice(updatedOffice)
+          onSubmit(newMember)
         }
-
-        const updatedOffice = {
-          ...office,
-          members: [...(office.members || []), newMember],
-          updatedAt: new Date().toISOString()
-        }
-
-        await updateOffice(updatedOffice)
-        onSubmit(newMember)
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to add staff member')
+        setError(err instanceof Error ? err.message : initialValues ? 'Failed to update staff member' : 'Failed to add staff member')
       }
     }
   })
@@ -92,7 +103,7 @@ export const StaffMemberForm = ({ onClose, onSubmit, office, initialValues }: St
               <img src={arrowLeft} alt="" width={24} height={24} />
             </BackButton>
           )}
-          <ModalHeader>New Staff Member</ModalHeader>
+          <ModalHeader>{initialValues ? 'Edit Staff Member' : 'New Staff Member'}</ModalHeader>
         </HeaderLeft>
         <CloseButton onClick={onClose} />
       </HeaderRow>
@@ -130,7 +141,7 @@ export const StaffMemberForm = ({ onClose, onSubmit, office, initialValues }: St
           )}
           <ButtonWrapper>
             <Button type="submit" variant="primary">
-              {step === 1 ? 'Next' : 'Add Staff Member'}
+              {step === 1 ? 'Next' : initialValues ? 'Update Staff Member' : 'Add Staff Member'}
             </Button>
           </ButtonWrapper>
         </Form>
