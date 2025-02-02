@@ -2,10 +2,13 @@ import styled from 'styled-components'
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: string;
+  icon?: React.ReactNode;
+  iconPosition?: 'left' | 'right';
 }
 
-const StyledInput = styled.input`
+const StyledInput = styled.input<{ $hasIcon?: boolean; $iconPosition?: 'left' | 'right' }>`
   padding: 16px;
+  padding-${props => props.$iconPosition}: ${props => props.$hasIcon ? '40px' : '16px'};
   border: 1px solid #FFF;
   border-radius: 8px;
   font-size: 16px;
@@ -46,10 +49,38 @@ const InputContainer = styled.div`
   width: 100%;
 `
 
-export const Input = ({ error, ...props }: InputProps) => {
+const InputWrapper = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+`
+
+const IconWrapper = styled.div<{ $position?: 'left' | 'right' }>`
+  position: absolute;
+  ${props => props.$position}: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94A3B8;
+  width: 16px;
+  height: 16px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+`
+
+export const Input = ({ error, icon, iconPosition = 'left', ...props }: InputProps) => {
   return (
     <InputContainer>
-      <StyledInput {...props} />
+      <InputWrapper>
+        {icon && <IconWrapper $position={iconPosition}>{icon}</IconWrapper>}
+        <StyledInput $hasIcon={!!icon} $iconPosition={iconPosition} {...props} />
+      </InputWrapper>
       {error && <ErrorText>{error}</ErrorText>}
     </InputContainer>
   )
