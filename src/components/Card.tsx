@@ -10,6 +10,7 @@ import editIcon from '../assets/icons/Edit.svg'
 import { Button } from './Button'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Accent } from './Accent'
 
 interface CardProps {
   id: string
@@ -41,7 +42,8 @@ export const Card = ({
   };
 
   return (
-    <CardContainer $borderColor={accent}>
+    <CardContainer>
+      <Accent color={accent} />
       <HeaderRow>
         <Typography variant="h2">{companyName}</Typography>
         <EditButton onClick={(e) => {
@@ -86,17 +88,17 @@ export const Card = ({
   )
 }
 
-const CardContainer = styled.div<{ $borderColor: string }>`
+const CardContainer = styled.div`
   background: #FFFFFF;
   border-radius: 8px;
-  padding: 20px 20px 0 20px;
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 20px 20px 0 28px;
+  position: relative;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  border-left: 12px solid ${props => props.$borderColor};
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
 
   &:hover {
     transform: translateY(-2px);
