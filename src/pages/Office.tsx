@@ -9,6 +9,7 @@ import { Typography } from '../components/Typography'
 import specnoLogo from '../assets/logo/SpecnoLogo_Blue.svg'
 import { Modal } from '../components/Modal'
 import { StaffMemberForm } from '../components/StaffMemberForm'
+import { StaffList } from '../components/StaffList'
 
 export const Office = () => {
   const { id } = useParams()
@@ -123,13 +124,22 @@ export const Office = () => {
 
   if (isEditMode) {
     return (
-      <OfficeForm 
-        initialValues={office}
-        onSave={handleSave}
-        onUpdate={handleUpdate}
-        onDelete={handleDelete}
-        error={error}
-      />
+      <Container>
+        <OfficeForm
+          initialValues={{
+            officeName: office.officeName,
+            address: office.address,
+            email: office.email,
+            phone: office.phone,
+            capacity: office.capacity,
+            accent: office.accent
+          }}
+          onUpdate={handleUpdate}
+          onSave={handleSave}
+          onDelete={handleDelete}
+          error={error}
+        />
+      </Container>
     )
   }
 
@@ -146,26 +156,25 @@ export const Office = () => {
         companyAddress={office.address}
         accent={office.accent}
       />
-      {office.members.length === 0 && (
+      {office.members.length === 0 ? (
         <EmptyState>
           <EmptyStateContent>
             <LogoContainer>
               <img src={specnoLogo} alt="Specno Logo" />
             </LogoContainer>
-            <Typography variant="h2">No Staff Members</Typography>
             <Typography>Add staff members to this office using the + button</Typography>
           </EmptyStateContent>
         </EmptyState>
-      )}
+      ) : <StaffList members={office.members} />}
       {showAddMemberModal && (
         <Modal 
           isOpen={showAddMemberModal} 
           onClose={() => setShowAddMemberModal(false)}
         >
-          <StaffMemberForm 
-            onClose={() => setShowAddMemberModal(false)} 
-            onSave={handleAddMember}
+          <StaffMemberForm
             office={office}
+            onClose={() => setShowAddMemberModal(false)}
+            onSave={handleAddMember}
           />
         </Modal>
       )}

@@ -45,6 +45,7 @@ export const StaffMemberForm = ({ onClose, onSave, office }: StaffMemberFormProp
     },
     validationSchema: step === 1 ? validationSchemaStep1 : validationSchemaStep2,
     validateOnMount: false,
+    validateOnChange: true,
     onSubmit: async (values) => {
       if (step === 1) {
         if (values.firstName && values.lastName) {
@@ -54,6 +55,12 @@ export const StaffMemberForm = ({ onClose, onSave, office }: StaffMemberFormProp
       }
 
       try {
+        // Validate before submitting
+        const errors = await formik.validateForm()
+        if (Object.keys(errors).length > 0) {
+          return
+        }
+
         const newMember = {
           id: uuidv4(),
           firstName: values.firstName,
@@ -114,8 +121,9 @@ export const StaffMemberForm = ({ onClose, onSave, office }: StaffMemberFormProp
             <AvatarPalette
               name="avatar"
               value={formik.values.avatar}
-              onChange={(avatar: string) => formik.setFieldValue('avatar', avatar)}
-              onBlur={() => formik.setFieldTouched('avatar')}
+              onChange={(avatar: string) => {
+                formik.setFieldValue('avatar', avatar, true);
+              }}
               error={formik.touched.avatar ? formik.errors.avatar : undefined}
             />
           )}

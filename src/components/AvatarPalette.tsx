@@ -26,7 +26,7 @@ const avatars = [
   { id: 'avatar07', src: avatar07 }
 ]
 
-export const AvatarPalette = ({ name, value, onChange }: AvatarPaletteProps) => {
+export const AvatarPalette = ({ name, value, onChange, onBlur, error }: AvatarPaletteProps) => {
 
   return (
     <PaletteContainer>
@@ -38,6 +38,7 @@ export const AvatarPalette = ({ name, value, onChange }: AvatarPaletteProps) => 
             $isSelected={value === avatar.id}
             onClick={() => {
               onChange(avatar.id);
+              onBlur?.();
             }}
             type="button"
             name={name}
@@ -47,12 +48,16 @@ export const AvatarPalette = ({ name, value, onChange }: AvatarPaletteProps) => 
           </AvatarButton>
         ))}
       </Container>
+      {error && <ErrorMessage>{error}</ErrorMessage>}
     </PaletteContainer>
   )
 }
 
 const PaletteContainer = styled.div`
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 `
 
 const AvatarButton = styled.button<{ $isSelected: boolean }>`
@@ -92,4 +97,11 @@ const Container = styled.div`
   gap: 36px 24px;
   justify-content: center;
   margin-top: 24px;
+`
+
+const ErrorMessage = styled.div`
+  color: #ef4444;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 8px;
 `

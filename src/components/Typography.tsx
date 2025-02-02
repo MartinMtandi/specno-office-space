@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-type TypographyVariant = 'h1' | 'h2' | 'h3' | 'body' | 'caption';
+type TypographyVariant = 'h1' | 'h2' | 'h3' | 'body' | 'caption' | 'body-m';
 
 interface TypographyProps {
   variant?: TypographyVariant;
@@ -35,7 +35,13 @@ const StyledTypography = styled.p<StyledTypographyProps>`
           font-size: 16px;
           font-weight: 600;
           line-height: 24px;
-        `
+       `
+      case 'body-m':
+          return `
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 24px;
+          `
       case 'body':
         return `
           font-size: 14px;

@@ -1,10 +1,10 @@
 const STORAGE_KEY = 'offices'
 
-interface Member {
+export interface Member {
   id: string;
   firstName: string;
   lastName: string;
-  avatar?: string;
+  avatar: string;
 }
 
 export interface Office {
