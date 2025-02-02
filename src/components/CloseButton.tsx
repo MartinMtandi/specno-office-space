@@ -1,5 +1,5 @@
 import { Button } from './Button'
-import closeIcon from '../assets/close-circle.svg'
+import closeIcon from '../assets/icons/close-circle.svg'
 
 interface CloseButtonProps {
   onClick: () => void;
