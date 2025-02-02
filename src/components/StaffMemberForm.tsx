@@ -8,12 +8,13 @@ import * as Yup from 'yup'
 import { useState } from 'react'
 import arrowLeft from '../assets/icons/arrow-left.svg'
 import { v4 as uuidv4 } from 'uuid'
-import { Office, updateOffice } from '../services/officeService'
+import { Office, updateOffice, updateMember, Member } from '../services/officeService'
 
 interface StaffMemberFormProps {
-  onClose: () => void
-  onSave: () => void
-  office: Office
+  onClose: () => void;
+  onSubmit: (member: Member) => void;
+  office: Office;
+  initialValues?: Member;
 }
 
 interface StaffMemberValues {
@@ -33,15 +34,15 @@ const validationSchemaStep2 = Yup.object().shape({
   avatar: Yup.string().required('Please select an avatar')
 })
 
-export const StaffMemberForm = ({ onClose, onSave, office }: StaffMemberFormProps) => {
+export const StaffMemberForm = ({ onClose, onSubmit, office, initialValues }: StaffMemberFormProps) => {
   const [step, setStep] = useState(1)
   const [error, setError] = useState<string | null>(null)
 
   const formik = useFormik<StaffMemberValues>({
     initialValues: {
-      firstName: '',
-      lastName: '',
-      avatar: ''
+      firstName: initialValues?.firstName || '',
+      lastName: initialValues?.lastName || '',
+      avatar: initialValues?.avatar || ''
     },
     validationSchema: step === 1 ? validationSchemaStep1 : validationSchemaStep2,
     validateOnMount: false,
@@ -61,23 +62,34 @@ export const StaffMemberForm = ({ onClose, onSave, office }: StaffMemberFormProp
           return
         }
 
-        const newMember = {
-          id: uuidv4(),
-          firstName: values.firstName,
-          lastName: values.lastName,
-          avatar: values.avatar
+        if (initialValues) {
+          // Update existing member
+          const updatedMember = {
+            ...initialValues,
+            firstName: values.firstName,
+            lastName: values.lastName,
+            avatar: values.avatar
+          }
+          await updateMember(office.id, updatedMember)
+          onSubmit(updatedMember)
+        } else {
+          // Create new member
+          const newMember = {
+            id: uuidv4(),
+            firstName: values.firstName,
+            lastName: values.lastName,
+            avatar: values.avatar
+          }
+          const updatedOffice = {
+            ...office,
+            members: [...(office.members || []), newMember],
+            updatedAt: new Date().toISOString()
+          }
+          await updateOffice(updatedOffice)
+          onSubmit(newMember)
         }
-
-        const updatedOffice = {
-          ...office,
-          members: [...(office.members || []), newMember],
-          updatedAt: new Date().toISOString()
-        }
-
-        await updateOffice(updatedOffice)
-        onSave()
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to add staff member')
+        setError(err instanceof Error ? err.message : initialValues ? 'Failed to update staff member' : 'Failed to add staff member')
       }
     }
   })
@@ -91,7 +103,7 @@ export const StaffMemberForm = ({ onClose, onSave, office }: StaffMemberFormProp
               <img src={arrowLeft} alt="" width={24} height={24} />
             </BackButton>
           )}
-          <ModalHeader>New Staff Member</ModalHeader>
+          <ModalHeader>{initialValues ? 'Edit Staff Member' : 'New Staff Member'}</ModalHeader>
         </HeaderLeft>
         <CloseButton onClick={onClose} />
       </HeaderRow>
@@ -129,7 +141,7 @@ export const StaffMemberForm = ({ onClose, onSave, office }: StaffMemberFormProp
           )}
           <ButtonWrapper>
             <Button type="submit" variant="primary">
-              {step === 1 ? 'Next' : 'Add Staff Member'}
+              {step === 1 ? 'Next' : initialValues ? 'Update Staff Member' : 'Add Staff Member'}
             </Button>
           </ButtonWrapper>
         </Form>

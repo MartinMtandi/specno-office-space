@@ -2,7 +2,7 @@ import { useParams, useSearchParams, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { OfficeForm } from '../components/OfficeForm'
 import styled from 'styled-components'
-import { getOfficeById, saveOffice, updateOffice, deleteOffice, Office as OfficeType, OfficeError } from '../services/officeService'
+import { getOfficeById, saveOffice, updateOffice, deleteOffice, Office as OfficeType, OfficeError, updateMember, removeMemberFromOffice, Member } from '../services/officeService'
 import { Card } from '../components/Card'
 import { PageHeader } from '../components/PageHeader'
 import { Typography } from '../components/Typography'
@@ -20,6 +20,8 @@ export const Office = () => {
   const [error, setError] = useState<string | null>(null)
   const [showAddMemberModal, setShowAddMemberModal] = useState(false)
   const [lastUpdate, setLastUpdate] = useState(Date.now())
+  const [isEditingStaff, setIsEditingStaff] = useState(false)
+  const [selectedMember, setSelectedMember] = useState<Member | null>(null)
 
   useEffect(() => {
     if (id) {
@@ -45,7 +47,7 @@ export const Office = () => {
 
   const handleDelete = () => {
     if (!id) return
-    
+
     try {
       deleteOffice(id)
       navigate('/')
@@ -62,7 +64,7 @@ export const Office = () => {
     setError(null)
     try {
       if (!office) return;
-      
+
       updateOffice({
         ...values,
         id: office.id,
@@ -85,7 +87,7 @@ export const Office = () => {
     setError(null)
     try {
       if (!office) return;
-      
+
       saveOffice({
         ...values,
         id: office.id,
@@ -118,6 +120,29 @@ export const Office = () => {
     setShowAddMemberModal(false)
   }
 
+  const handleEditStaff = (member: Member) => {
+    setSelectedMember(member)
+    setIsEditingStaff(true)
+  }
+
+  const handleUpdateStaff = (member: Member) => {
+    if (office && selectedMember) {
+      updateMember(office.id, member)
+      const updatedOffice = getOfficeById(office.id)
+      setOffice(updatedOffice || null)
+      setIsEditingStaff(false)
+      setSelectedMember(null)
+    }
+  }
+
+  const handleDeleteStaff = (member: Member) => {
+    if (office) {
+      removeMemberFromOffice(office.id, member.id)
+      const updatedOffice = getOfficeById(office.id)
+      setOffice(updatedOffice || null)
+    }
+  }
+
   if (!office) {
     return null
   }
@@ -145,8 +170,8 @@ export const Office = () => {
 
   return (
     <Container>
-      <PageHeader 
-        title="Office" 
+      <PageHeader
+        title="Office"
         onBack={() => navigate('/')}
       />
       <Card
@@ -168,16 +193,39 @@ export const Office = () => {
             <Typography>Add staff members to this office using the + button</Typography>
           </EmptyStateContent>
         </EmptyState>
-      ) : <StaffList members={office.members} />}
+      ) : <StaffList
+        members={office.members}
+        onEditMember={handleEditStaff}
+        onDeleteMember={handleDeleteStaff}
+      />}
       {showAddMemberModal && (
-        <Modal 
-          isOpen={showAddMemberModal} 
+        <Modal
+          isOpen={showAddMemberModal}
           onClose={() => setShowAddMemberModal(false)}
         >
           <StaffMemberForm
             office={office}
             onClose={() => setShowAddMemberModal(false)}
-            onSave={handleAddMember}
+            onSubmit={handleAddMember}
+          />
+        </Modal>
+      )}
+      {isEditingStaff && (
+        <Modal
+          isOpen={isEditingStaff}
+          onClose={() => {
+            setIsEditingStaff(false)
+            setSelectedMember(null)
+          }}
+        >
+          <StaffMemberForm
+            office={office}
+            onClose={() => {
+              setIsEditingStaff(false)
+              setSelectedMember(null)
+            }}
+            onSubmit={handleUpdateStaff}
+            initialValues={selectedMember || undefined}
           />
         </Modal>
       )}
