@@ -52,6 +52,7 @@ const HeaderRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 12px;
 `
 
 const EmptyState = styled.div`

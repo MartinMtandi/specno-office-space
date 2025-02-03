@@ -11,7 +11,7 @@ interface DeleteOfficeModalProps {
 export const DeleteOfficeModal = ({ officeName, onDelete, onKeep }: DeleteOfficeModalProps) => {
   return (
     <Content>
-      <Typography variant="h2">Are you sure you want to delete {officeName} office?</Typography>
+      <Typography variant="h4">Are you sure you want to delete {officeName} office?</Typography>
       <ButtonGroup>
         <Button type="button" variant="danger" onClick={onDelete}>
           Delete office
@@ -37,4 +37,5 @@ const ButtonGroup = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 16px;
+  margin-top: 32px;
 `

@@ -57,7 +57,6 @@ export const Card = ({
         <img src={peopleIcon} alt="people" width={20} height={20} />
         <Typography variant="body"><b>{totalStaff}</b> Staff Members in Office</Typography>
       </InfoRow>
-      <Divider />
       <ButtonWrapper>
         <Button 
           text="More info" 
@@ -143,17 +142,12 @@ const EditButton = styled.button`
   }
 `
 
-const Divider = styled.div`
-  width: 100%;
-  height: 1px;
-  background-color: #E2E8F0;
-  margin: 4px 0;
-`
-
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
+  border-top: 1px solid #E2E8F0;
+  padding-top: 8px;
 
   img {
     transition: transform 0.2s ease-in-out;
