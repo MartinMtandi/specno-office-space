@@ -55,6 +55,7 @@ const ButtonContainer = styled.button<StyledButtonProps>`
   text-align: center;
   font-family: inherit;
   transition: ${theme.transitions.default};
+  color: ${theme.colors.text.secondary};
 
   ${props => {
     switch (props.$variant) {

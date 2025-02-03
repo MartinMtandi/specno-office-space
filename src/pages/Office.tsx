@@ -282,6 +282,7 @@ const SearchContainer = styled.div`
   width: 100%;
   max-width: ${theme.layout.maxContentWidth};
   margin: 0 auto;
+  padding-top: ${theme.spacing.sm};
 `
 
 const EmptyState = styled.div`
