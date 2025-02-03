@@ -181,10 +181,4 @@ const ButtonContainer = styled.button<StyledButtonProps>`
         return '';
     }
   }}
-
-  ${props => props.$isRotated && css`
-    img {
-      transform: rotate(180deg);
-    }
-  `}
 `
