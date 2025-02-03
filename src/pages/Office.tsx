@@ -13,6 +13,7 @@ import { StaffList } from '../components/StaffList'
 import { Input } from '../components/Input'
 import searchIcon from '../assets/icons/Search.svg'
 import { DeleteOfficeModal } from '../components/DeleteOfficeModal'
+import { theme } from '../theme'
 
 export const Office = () => {
   const { id } = useParams()
@@ -274,37 +275,38 @@ export const Office = () => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: ${theme.layout.gap.md};
 `
 
 const SearchContainer = styled.div`
   width: 100%;
-  max-width: 600px;
+  max-width: ${theme.layout.maxContentWidth};
   margin: 0 auto;
+  padding-top: ${theme.spacing.sm};
 `
 
 const EmptyState = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #F8FAFC;
-  border-radius: 8px;
-  padding: 48px 24px;
-  margin-top: 16px;
+  background: ${theme.colors.background.main};
+  border-radius: ${theme.layout.borderRadius.sm};
+  padding: 48px ${theme.spacing.xl};
+  margin-top: ${theme.spacing.lg};
 `
 
 const EmptyStateContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: ${theme.layout.gap.md};
   text-align: center;
-  color: #6b7280;
+  color: ${theme.colors.text.muted};
 `
 
 const LogoContainer = styled.div`
   width: 200px;
-  margin-bottom: 8px;
+  margin-bottom: ${theme.spacing.sm};
 
   img {
     width: 100%;

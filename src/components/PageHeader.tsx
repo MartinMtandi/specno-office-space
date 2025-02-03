@@ -28,7 +28,7 @@ export const PageHeader = ({ title, onBack }: PageHeaderProps) => {
         onClick={handleBack}
         icon={arrowLeft}
       />
-      <Typography variant="h2">{title}</Typography>
+      <Typography variant="sub-heading">{title}</Typography>
     </HeaderRow>
   )
 }

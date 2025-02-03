@@ -9,6 +9,8 @@ import { useState } from 'react'
 import arrowLeft from '../assets/icons/arrow-left.svg'
 import { v4 as uuidv4 } from 'uuid'
 import { Office, updateOffice, updateMember, Member } from '../services/officeService'
+import { Typography } from './Typography'
+import { theme } from '../theme'
 
 interface StaffMemberFormProps {
   onClose: () => void;
@@ -103,7 +105,7 @@ export const StaffMemberForm = ({ onClose, onSubmit, office, initialValues }: St
               <img src={arrowLeft} alt="" width={24} height={24} />
             </BackButton>
           )}
-          <ModalHeader>{initialValues ? 'Edit Staff Member' : 'New Staff Member'}</ModalHeader>
+          <Typography color="#000000" variant="h3">{initialValues ? 'Edit Staff Member' : 'New Staff Member'}</Typography>
         </HeaderLeft>
         <CloseButton onClick={onClose} />
       </HeaderRow>
@@ -158,26 +160,24 @@ const CarouselDots = styled.div`
   display: flex;
   justify-content: center;
   gap: 4px;
-  margin-top: 16px;
+  margin-top: ${theme.spacing.lg};
 `
 
 const Dot = styled.div<{ $active: boolean }>`
   width: 8px;
   height: 8px;
-  border-radius: 50%;
-  background-color: ${props => props.$active ? '#489DDA' : 'transparent'};
-  border: 2px solid #489DDA;
+  border-radius: ${theme.layout.borderRadius.full};
+  background-color: ${props => props.$active ? theme.colors.primary.main : 'transparent'};
+  border: 2px solid ${theme.colors.primary.main};
   transition: background-color 0.3s ease;
 `
 
 const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: ${theme.layout.gap.lg};
   position: relative;
-  background-color: white;
-  border-radius: 8px;
-  padding: 24px;
+  border-radius: ${theme.layout.borderRadius.sm};
 `
 
 const HeaderRow = styled.div`
@@ -189,46 +189,40 @@ const HeaderRow = styled.div`
 const HeaderLeft = styled.div`
   display: flex;
   align-items: center;
-  gap: 12px;
-`
-
-const ModalHeader = styled.h2`
-  font-size: 24px;
-  color: #1E293B;
-  margin: 0;
+  gap: ${theme.layout.gap.sm};
 `
 
 const ModalBody = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: ${theme.layout.gap.md};
 `
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: ${theme.layout.gap.md};
 `
 
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 24px;
+  margin-top: ${theme.spacing.xxxl};
 `
 
 const BackButton = styled.button`
   background: none;
   border: none;
-  padding: 8px 8px 8px 0px;
+  padding: ${theme.spacing.sm} ${theme.spacing.md} ${theme.spacing.sm} 0px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
+  border-radius: ${theme.layout.borderRadius.full};
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: #f1f5f9;
+    background-color: ${theme.colors.secondary.light};
   }
 
   img {
@@ -237,7 +231,7 @@ const BackButton = styled.button`
 `
 
 const ErrorMessage = styled.div`
-  color: #ef4444;
-  font-size: 14px;
-  margin-bottom: 16px;
+  color: ${theme.colors.danger.main};
+  font-size: ${theme.fontSize.sm};
+  margin-bottom: ${theme.spacing.lg};
 `

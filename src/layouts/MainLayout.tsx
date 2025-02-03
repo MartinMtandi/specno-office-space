@@ -5,6 +5,7 @@ import { Modal } from '../components/Modal'
 import { StaffMemberForm } from '../components/StaffMemberForm'
 import { useState, useEffect } from 'react'
 import { getOffices, getOfficeById, Office } from '../services/officeService'
+import { theme } from '../theme'
 
 export const MainLayout = () => {
   const navigate = useNavigate()
@@ -89,7 +90,7 @@ export const MainLayout = () => {
 
 const Wrapper = styled.div`
   width: 100%;
-  background-color: #E5E5E5;
+  background-color: ${theme.colors.background.secondary};
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -99,16 +100,17 @@ const Wrapper = styled.div`
 `
 
 const Container = styled.div`
-  max-width: 412px;
+  max-width: ${theme.layout.maxContentWidth};
   width: 100%;
-  background-color: #F8FAFC;
+  background-color: ${theme.colors.background.main};
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: ${theme.layout.gap.lg};
   min-height: 100vh;
-  padding: 16px;
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+  padding: ${theme.layout.padding.page};
+  box-shadow: ${theme.shadows.md};
   box-sizing: border-box;
+  position: relative;
 `
 
 const pulseAnimation = keyframes`
@@ -126,18 +128,18 @@ const pulseAnimation = keyframes`
 const FloatingButton = styled.button<{ $shouldPulse: boolean }>`
   position: absolute;
   bottom: 20px;
-  right: calc(50% - 190px);
+  right: max(20px, calc((100% - ${theme.layout.maxContentWidth}) / 2 + 20px));
   width: 56px;
   height: 56px;
-  border-radius: 50%;
-  background: #0D4477;
+  border-radius: ${theme.layout.borderRadius.full};
+  background: ${theme.colors.primary.dark};
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease-in-out;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: ${theme.transitions.default};
+  box-shadow: ${theme.shadows.button};
   animation: ${props => props.$shouldPulse ? css`${pulseAnimation} 2s infinite` : 'none'};
 
   &:hover {

@@ -5,6 +5,7 @@ import { ColorPalette } from './ColorPalette'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { PageHeader } from './PageHeader'
+import { theme } from '../theme'
 
 interface OfficeFormProps {
   onUpdate?: (values: FormValues) => void;
@@ -146,24 +147,24 @@ export const OfficeForm = ({ onUpdate, onSave, onDelete, error, initialValues }:
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  max-width: 600px;
+  gap: ${theme.layout.gap.md};
+  max-width: ${theme.layout.maxContentWidth};
   margin: 0 auto;
 `
 
 const ButtonWrapper = styled.div`
   display: flex;
-  gap: 16px;
+  gap: ${theme.layout.gap.md};
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 24px;
+  margin-top: ${theme.spacing.xl};
 `
 
 const ErrorMessage = styled.div`
-  color: #EF4444;
-  background: #FEE2E2;
-  padding: 12px;
-  border-radius: 4px;
-  margin-bottom: 8px;
+  color: ${theme.colors.danger.main};
+  background: ${theme.colors.danger.light};
+  padding: ${theme.spacing.md};
+  border-radius: ${theme.layout.borderRadius.xs};
+  margin-bottom: ${theme.spacing.sm};
 `

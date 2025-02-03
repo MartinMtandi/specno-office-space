@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { Typography } from './Typography';
+import { theme } from '../theme';
 
 interface ColorPaletteProps {
   name: string;
@@ -26,7 +27,7 @@ const colors = [
 export const ColorPalette = ({ name, value = '#FFBE0B', onChange, onBlur }: ColorPaletteProps) => {
   return (
     <PaletteContainer>
-      <Typography variant="h1">Office Colour</Typography>
+      <Typography color="#000000" variant="h3-semibold">Office Colour</Typography>
       <Container>
         {colors.map((color) => (
           <ColorButton
@@ -54,11 +55,11 @@ const PaletteContainer = styled.div`
 const ColorButton = styled.button<{ $color: string; $isSelected: boolean }>`
   width: 36px;
   height: 36px;
-  border-radius: 36px;
+  border-radius: ${theme.layout.borderRadius.lg};
   border: none;
   background-color: ${props => props.$color};
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: ${theme.transitions.default};
   position: relative;
 
   &:hover {
@@ -66,15 +67,15 @@ const ColorButton = styled.button<{ $color: string; $isSelected: boolean }>`
   }
 
   ${props => props.$isSelected && `
-    border: 4px solid #475569;
-    border-radius: 36px;
+    border: 4px solid ${theme.colors.border.dark};
+    border-radius: ${theme.layout.borderRadius.lg};
   `}
 `
 
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 36px 24px;
+  gap: ${theme.layout.gap.xl} ${theme.layout.gap.lg};
   justify-content: center;
-  margin-top: 24px;
+  margin-top: ${theme.spacing.xl};
 `

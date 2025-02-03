@@ -11,6 +11,7 @@ import moreDots from '../assets/icons/more-dots.svg'
 import { Member } from '../services/officeService'
 import { StaffMemberActions } from './StaffMemberActions'
 import { useState } from 'react'
+import { theme } from '../theme'
 
 const avatarMap = {
   avatar01,
@@ -34,7 +35,7 @@ export const StaffList = ({ members, onEditMember, onDeleteMember }: StaffListPr
   return (
     <Container>
       <Header>
-        <Typography variant="h2">Staff Members In Office</Typography>
+        <Typography variant="h3-semibold">Staff Members In Office</Typography>
         <Typography variant="body-m">{members.length}</Typography>
       </Header>
       <List>
@@ -71,8 +72,8 @@ export const StaffList = ({ members, onEditMember, onDeleteMember }: StaffListPr
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding: 16px 0;
+  gap: ${theme.layout.gap.md};
+  padding: ${theme.spacing.lg} 0;
 `
 
 const Header = styled.div`
@@ -87,33 +88,33 @@ const List = styled.ul`
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: ${theme.layout.gap.sm};
 `
 
 const ListItem = styled.li`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 8px 0;
-  border-radius: 8px;
+  gap:  ${theme.layout.gap.sm};
+  padding: ${theme.spacing.sm} 0;
+  border-radius: ${theme.layout.borderRadius.sm};
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: #F8FAFC;
+    background-color: ${theme.colors.background.main};
   }
 `
 
 const LeftContent = styled.div`
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: ${theme.layout.gap.sm}
 `
 
 const Avatar = styled.img`
   width: 40px;
   height: 40px;
-  border-radius: 50%;
+  border-radius: ${theme.layout.borderRadius.full};
 `
 
 const MemberInfo = styled.div`
@@ -124,16 +125,16 @@ const MemberInfo = styled.div`
 const MoreButton = styled.button`
   background: none;
   border: none;
-  padding: 8px;
+  padding: ${theme.spacing.sm};
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
+  border-radius: ${theme.layout.borderRadius.full};
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: #E2E8F0;
+    background-color: ${theme.colors.border.main};
   }
 
   img {
