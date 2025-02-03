@@ -4,6 +4,7 @@ import { Card } from '../components/Card'
 import { getOffices } from '../services/officeService'
 import { useEffect, useState } from 'react'
 import specnoLogo from '../assets/logo/SpecnoLogo_Blue.svg'
+import { theme } from '../theme'
 
 export const Home = () => {
   const [offices, setOffices] = useState(getOffices())
@@ -52,7 +53,7 @@ const HeaderRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: ${theme.spacing.md};
 `
 
 const EmptyState = styled.div`
@@ -60,22 +61,22 @@ const EmptyState = styled.div`
   justify-content: center;
   align-items: center;
   min-height: calc(100vh - 48px);
-  color: #6b7280;
-  margin: -24px;
+  color: ${theme.colors.text.muted};
+  margin: -${theme.spacing.xl};
 `
 
 const EmptyStateContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: ${theme.layout.gap.md};
   text-align: center;
-  padding: 24px;
+  padding: ${theme.spacing.xl};
 `
 
 const LogoContainer = styled.div`
   width: 200px;
-  margin-bottom: 24px;
+  margin-bottom:  ${theme.spacing.xl};
 
   img {
     width: 100%;

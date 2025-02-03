@@ -7,6 +7,7 @@ import avatar04 from '../assets/avatars/avatar04.svg'
 import avatar05 from '../assets/avatars/avatar05.svg'
 import avatar06 from '../assets/avatars/avatar06.svg'
 import avatar07 from '../assets/avatars/avatar07.svg'
+import { theme } from '../theme'
 
 interface AvatarPaletteProps {
   name: string;
@@ -57,17 +58,17 @@ const PaletteContainer = styled.div`
   margin-top: 20px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: ${theme.layout.gap.xs};
 `
 
 const AvatarButton = styled.button<{ $isSelected: boolean }>`
   width: 60px;
   height: 60px;
-  border-radius: 50%;
+  border-radius: ${theme.layout.borderRadius.full};
   border: 4px solid transparent;
-  background: white;
+  background: ${theme.colors.white};
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: ${theme.transitions.default};
   position: relative;
   padding: 0;
   display: flex;
@@ -80,28 +81,28 @@ const AvatarButton = styled.button<{ $isSelected: boolean }>`
   }
 
   ${props => props.$isSelected && `
-    border: 4px solid #475569;
-    background: #f1f5f9;
+    border: 4px solid ${theme.colors.border.dark};
+    background: ${theme.colors.secondary.light};
   `}
 `
 
 const AvatarImage = styled.img`
   width: 52px;
   height: 52px;
-  border-radius: 50%;
+  border-radius: ${theme.layout.borderRadius.full};
 `
 
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 36px 24px;
+  gap: ${theme.spacing.xxxl} ${theme.spacing.xl};
   justify-content: center;
-  margin-top: 24px;
+  margin-top: ${theme.spacing.xl};
 `
 
 const ErrorMessage = styled.div`
-  color: #ef4444;
-  font-size: 14px;
+  color: ${theme.colors.danger.main};
+  font-size: ${theme.fontSize.sm};
   text-align: center;
-  margin-top: 8px;
+  margin-top:  ${theme.spacing.sm};
 `

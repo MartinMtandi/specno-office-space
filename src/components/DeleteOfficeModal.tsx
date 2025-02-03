@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Button } from './Button'
 import { Typography } from './Typography'
-
+import { theme } from '../theme'
 interface DeleteOfficeModalProps {
   officeName: string
   onDelete: () => void
@@ -28,7 +28,7 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: ${theme.layout.gap.md};
   min-width: 300px;
 `
 
@@ -36,6 +36,6 @@ const ButtonGroup = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
-  margin-top: 32px;
+  gap: ${theme.layout.gap.md};
+  margin-top: ${theme.spacing.xxxl};
 `

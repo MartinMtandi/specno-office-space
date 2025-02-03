@@ -5,6 +5,7 @@ import { Member } from '../services/officeService'
 import { Typography } from './Typography'
 import { useState } from 'react'
 import backArrow from '../assets/icons/arrow-left.svg'
+import { theme } from '../theme'
 
 interface StaffMemberActionsProps {
   isOpen: boolean
@@ -81,28 +82,28 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: ${theme.layout.gap.md};
   min-width: 300px;
 `
 
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-top: 8px;
+  gap: ${theme.layout.gap.md};
+  margin-top: ${theme.spacing.sm};
 `
 
 const TitleContainer = styled.div`
   display: flex;
   align-items: start;
-  gap: 8px;
+  gap: ${theme.layout.gap.xs};
   width: 100%;
 `
 
 const BackButton = styled.button`
   background: none;
   border: none;
-  padding: 8px;
+  padding: ${theme.spacing.sm};
   cursor: pointer;
   display: flex;
   align-items: center;

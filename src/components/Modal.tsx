@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import styled from 'styled-components'
+import { theme } from '../theme'
 
 interface ModalProps {
   isOpen: boolean
@@ -44,13 +45,13 @@ const Overlay = styled.div`
 `
 
 const Content = styled.div`
-  background: #F8FAFC;;
-  padding: 24px 18px;
-  border-radius: 8px;
+  background: ${theme.colors.background.main};
+  padding: ${theme.spacing.xl} ${theme.spacing.lg};
+  border-radius: ${theme.layout.borderRadius.sm};
   width: 90%;
-  max-width: calc(412px - 32px);
+  max-width: calc(${theme.layout.maxContentWidth} - ${theme.spacing.xxl});
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: ${theme.shadows.lg};
 `
