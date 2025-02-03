@@ -1,5 +1,5 @@
-import { useParams, useSearchParams, useNavigate } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
 import { OfficeForm } from '../components/OfficeForm'
 import styled from 'styled-components'
 import { getOfficeById, saveOffice, updateOffice, deleteOffice, Office as OfficeType, OfficeError, updateMember, removeMemberFromOffice, Member } from '../services/officeService'
@@ -15,7 +15,7 @@ import searchIcon from '../assets/icons/Search.svg'
 import { DeleteOfficeModal } from '../components/DeleteOfficeModal'
 import { theme } from '../theme'
 
-export const Office = () => {
+const Office = () => {
   const { id } = useParams()
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
@@ -51,7 +51,15 @@ export const Office = () => {
     }
   }, [])
 
-  const handleDelete = () => {
+  const filteredStaff = useMemo(() => {
+    if (!office?.members) return []
+    return office.members.filter(member => 
+      (member.firstName || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (member.lastName || '').toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  }, [office?.members, searchQuery])
+
+  const handleDelete = useCallback(() => {
     if (!id) return
 
     try {
@@ -65,13 +73,13 @@ export const Office = () => {
         setError('Failed to delete office')
       }
     }
-  }
+  }, [id, navigate])
 
-  const handleDeleteClick = () => {
+  const handleDeleteClick = useCallback(() => {
     setShowDeleteConfirmation(true)
-  }
+  }, [])
 
-  const handleUpdate = (values: Omit<OfficeType, 'id' | 'createdAt' | 'updatedAt' | 'members'>) => {
+  const handleUpdate = useCallback((values: Omit<OfficeType, 'id' | 'createdAt' | 'updatedAt' | 'members'>) => {
     setError(null)
     try {
       if (!office) return;
@@ -92,9 +100,9 @@ export const Office = () => {
         setError('Failed to update office')
       }
     }
-  }
+  }, [office, id, navigate])
 
-  const handleSave = (values: Omit<OfficeType, 'id' | 'createdAt' | 'updatedAt' | 'members'>) => {
+  const handleSave = useCallback((values: Omit<OfficeType, 'id' | 'createdAt' | 'updatedAt' | 'members'>) => {
     setError(null)
     try {
       if (!office) return;
@@ -115,9 +123,9 @@ export const Office = () => {
         setError('Failed to save office')
       }
     }
-  }
+  }, [office, id, navigate])
 
-  const handleAddMember = () => {
+  const handleAddMember = useCallback(() => {
     if (office) {
       const updatedOffice = getOfficeById(office.id)
       if (updatedOffice) {
@@ -129,14 +137,14 @@ export const Office = () => {
       }
     }
     setShowAddMemberModal(false)
-  }
+  }, [office])
 
-  const handleEditStaff = (member: Member) => {
+  const handleEditStaff = useCallback((member: Member) => {
     setSelectedMember(member)
     setIsEditingStaff(true)
-  }
+  }, [])
 
-  const handleUpdateStaff = (member: Member) => {
+  const handleUpdateStaff = useCallback((member: Member) => {
     if (office && selectedMember) {
       updateMember(office.id, member)
       const updatedOffice = getOfficeById(office.id)
@@ -144,15 +152,19 @@ export const Office = () => {
       setIsEditingStaff(false)
       setSelectedMember(null)
     }
-  }
+  }, [office, selectedMember])
 
-  const handleDeleteStaff = (member: Member) => {
+  const handleDeleteStaff = useCallback((member: Member) => {
     if (office) {
       removeMemberFromOffice(office.id, member.id)
       const updatedOffice = getOfficeById(office.id)
       setOffice(updatedOffice || null)
     }
-  }
+  }, [office])
+
+  const handleSearch = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value)
+  }, [])
 
   if (!office) {
     return null
@@ -211,7 +223,7 @@ export const Office = () => {
             type="text"
             placeholder="Search"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={handleSearch}
             icon={<img src={searchIcon} alt="Search" />}
             iconPosition="right"
           />
@@ -227,13 +239,7 @@ export const Office = () => {
           </EmptyStateContent>
         </EmptyState>
       ) : <StaffList
-        members={office.members.filter(member => {
-          const searchTerm = searchQuery.toLowerCase();
-          return (
-            (member.firstName || '').toLowerCase().includes(searchTerm) ||
-            (member.lastName || '').toLowerCase().includes(searchTerm)
-          );
-        })}
+        members={filteredStaff}
         onEditMember={handleEditStaff}
         onDeleteMember={handleDeleteStaff}
       />}
@@ -313,3 +319,5 @@ const LogoContainer = styled.div`
     height: auto;
   }
 `
+
+export default Office

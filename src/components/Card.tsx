@@ -12,6 +12,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Accent } from './Accent'
 import { theme } from '../theme'
+import { memo } from 'react'
 
 interface CardProps {
   id: string
@@ -24,7 +25,7 @@ interface CardProps {
   accent: string;
 }
 
-export const Card = ({
+export const Card = memo(({ 
   id,
   companyName,
   totalStaff,
@@ -55,7 +56,7 @@ export const Card = ({
         </EditButton>
       </HeaderRow>
       <InfoRow onClick={() => navigate(`/office/${id}`)}>
-        <img src={peopleIcon} alt="people" width={20} height={20} />
+        <img src={peopleIcon} alt="people" width={20} height={20} loading="lazy" />
         <Typography variant="body"><b>{totalStaff}</b> Staff Members in Office</Typography>
       </InfoRow>
       <ButtonWrapper>
@@ -68,25 +69,36 @@ export const Card = ({
       </ButtonWrapper>
       <ExpandableContent $isExpanded={isExpanded} onClick={() => navigate(`/office/${id}`)}>
         <InfoRow>
-          <img src={phoneIcon} alt="Phone" width={20} height={20} />
+          <img src={phoneIcon} alt="Phone" width={20} height={20} loading="lazy" />
           <Typography variant="body">{phoneNumber}</Typography>
         </InfoRow>
         <InfoRow>
-          <img src={emailIcon} alt="Email" width={20} height={20} />
+          <img src={emailIcon} alt="Email" width={20} height={20} loading="lazy" />
           <Typography variant="body">{emailAddress}</Typography>
         </InfoRow>
         <InfoRow>
-          <img src={capacityIcon} alt="Capacity" width={20} height={20} />
+          <img src={capacityIcon} alt="Capacity" width={20} height={20} loading="lazy" />
           <Typography variant="body">Office Capacity: {officeCapacity}</Typography>
         </InfoRow>
         <InfoRow>
-          <img src={locationIcon} alt="Location" width={20} height={20} />
+          <img src={locationIcon} alt="Location" width={20} height={20} loading="lazy" />
           <Typography variant="body">{companyAddress}</Typography>
         </InfoRow>
       </ExpandableContent>
     </CardContainer>
   )
-}
+}, (prevProps, nextProps) => {
+  return (
+    prevProps.id === nextProps.id &&
+    prevProps.companyName === nextProps.companyName &&
+    prevProps.totalStaff === nextProps.totalStaff &&
+    prevProps.phoneNumber === nextProps.phoneNumber &&
+    prevProps.emailAddress === nextProps.emailAddress &&
+    prevProps.officeCapacity === nextProps.officeCapacity &&
+    prevProps.companyAddress === nextProps.companyAddress &&
+    prevProps.accent === nextProps.accent
+  )
+})
 
 const CardContainer = styled.div`
   background: ${theme.colors.white};

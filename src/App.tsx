@@ -1,20 +1,26 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { Office } from './pages/Office'
-import { Home } from './pages/Home'
+import { lazy, Suspense } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { MainLayout } from './layouts/MainLayout'
-import { OfficeFormPage } from './pages/OfficeFormPage'
+import { LoadingSpinner } from './components/LoadingSpinner'
+
+// Lazy load page components
+const Home = lazy(() => import('./pages/Home'))
+const Office = lazy(() => import('./pages/Office'))
+const OfficeFormPage = lazy(() => import('./pages/OfficeFormPage'))
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/office/new" element={<OfficeFormPage />} />
-          <Route path="/office/:id" element={<Office />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <Router>
+      <MainLayout>
+        <Suspense fallback={<LoadingSpinner />}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/office/:id" element={<Office />} />
+            <Route path="/office/new" element={<OfficeFormPage />} />
+          </Routes>
+        </Suspense>
+      </MainLayout>
+    </Router>
   )
 }
 

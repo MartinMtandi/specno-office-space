@@ -27,7 +27,7 @@ interface Office extends FormValues {
   members: Member[];
 }
 
-export const OfficeFormPage = () => {
+const OfficeFormPage = () => {
   const navigate = useNavigate()
   const [error, setError] = useState<string | null>(null)
 
@@ -63,3 +63,5 @@ export const OfficeFormPage = () => {
     </>
   )
 }
+
+export default OfficeFormPage

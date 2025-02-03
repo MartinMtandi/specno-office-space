@@ -1,5 +1,5 @@
 import styled, { keyframes, css } from 'styled-components'
-import { Outlet, useNavigate, useLocation, useParams } from 'react-router-dom'
+import {  useNavigate, useLocation, useParams } from 'react-router-dom'
 import unionIcon from '../assets/icons/Union.svg'
 import { Modal } from '../components/Modal'
 import { StaffMemberForm } from '../components/StaffMemberForm'
@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react'
 import { getOffices, getOfficeById, Office } from '../services/officeService'
 import { theme } from '../theme'
 
-export const MainLayout = () => {
+export const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate()
   const location = useLocation()
   const { id } = useParams()
@@ -66,7 +66,7 @@ export const MainLayout = () => {
   return (
     <Wrapper>
       <Container>
-        <Outlet />
+        {children}
       </Container>
       {showFloatingButton && (
         <>
