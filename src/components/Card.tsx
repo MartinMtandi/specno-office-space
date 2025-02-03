@@ -45,7 +45,7 @@ export const Card = ({
     <CardContainer>
       <Accent color={accent} />
       <HeaderRow>
-        <Typography variant="h2">{companyName}</Typography>
+        <Typography variant="h3">{companyName}</Typography>
         <EditButton onClick={(e) => {
           e.stopPropagation();
           navigate(`/office/${id}?mode=edit`);

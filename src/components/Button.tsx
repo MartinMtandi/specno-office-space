@@ -34,7 +34,7 @@ const ButtonContainer = styled.button<StyledButtonProps>`
           background: #489DDA;
           border: 1px solid transparent;
           color: white;
-          padding: 16px;
+          padding: 16px 28px;
           border-radius: 100px;
           font-size: 14px;
           font-weight: 500;
@@ -54,7 +54,7 @@ const ButtonContainer = styled.button<StyledButtonProps>`
           background: transparent;
           border: 1px solid transparent;
           color: #489DDA;
-          padding: 16px;
+          padding: 16px 28px;
           text-transform: uppercase;
           border-radius: 100px;
           font-weight: 500;
@@ -72,7 +72,7 @@ const ButtonContainer = styled.button<StyledButtonProps>`
           background: #F44336;
           border: 1px solid transparent;
           color: white;
-          padding: 16px;
+          padding: 16px 28px;
           text-transform: uppercase;
           border-radius: 100px;
           font-weight: 500;
@@ -92,7 +92,7 @@ const ButtonContainer = styled.button<StyledButtonProps>`
             background: transparent;
             border: 1px solid transparent;
             color: #489DDA;
-            padding: 16px;
+            padding: 16px 28px;
             text-transform: uppercase;
             border-radius: 100px;
             font-weight: 500;
@@ -111,10 +111,9 @@ const ButtonContainer = styled.button<StyledButtonProps>`
         return `
           background: none;
           border: none;
-          color: #64748B;
-          padding: 8px;
-          font-size: 14px;
-          font-weight: 500;
+          padding: 4px;
+          font-size: 12px;
+          font-weight: 400;
 
           &:hover {
             color: #334155;
@@ -175,8 +174,8 @@ export const Button = ({
       className={className}
       style={style}
     >
-      {icon && <img src={icon} alt="" width={20} height={20} />}
       {text || children}
+      {icon && <img src={icon} alt="" width={20} height={20} />}
     </ButtonContainer>
   )
 }

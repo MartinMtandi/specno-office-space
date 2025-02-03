@@ -9,6 +9,7 @@ import { useState } from 'react'
 import arrowLeft from '../assets/icons/arrow-left.svg'
 import { v4 as uuidv4 } from 'uuid'
 import { Office, updateOffice, updateMember, Member } from '../services/officeService'
+import { Typography } from './Typography'
 
 interface StaffMemberFormProps {
   onClose: () => void;
@@ -103,7 +104,7 @@ export const StaffMemberForm = ({ onClose, onSubmit, office, initialValues }: St
               <img src={arrowLeft} alt="" width={24} height={24} />
             </BackButton>
           )}
-          <ModalHeader>{initialValues ? 'Edit Staff Member' : 'New Staff Member'}</ModalHeader>
+          <Typography color="#000000" variant="h3">{initialValues ? 'Edit Staff Member' : 'New Staff Member'}</Typography>
         </HeaderLeft>
         <CloseButton onClick={onClose} />
       </HeaderRow>
@@ -175,9 +176,7 @@ const ModalContent = styled.div`
   flex-direction: column;
   gap: 24px;
   position: relative;
-  background-color: white;
   border-radius: 8px;
-  padding: 24px;
 `
 
 const HeaderRow = styled.div`
@@ -190,12 +189,6 @@ const HeaderLeft = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-`
-
-const ModalHeader = styled.h2`
-  font-size: 24px;
-  color: #1E293B;
-  margin: 0;
 `
 
 const ModalBody = styled.div`

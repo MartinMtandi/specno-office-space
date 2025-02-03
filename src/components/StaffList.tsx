@@ -34,7 +34,7 @@ export const StaffList = ({ members, onEditMember, onDeleteMember }: StaffListPr
   return (
     <Container>
       <Header>
-        <Typography variant="h2">Staff Members In Office</Typography>
+        <Typography variant="h3-semibold">Staff Members In Office</Typography>
         <Typography variant="body-m">{members.length}</Typography>
       </Header>
       <List>

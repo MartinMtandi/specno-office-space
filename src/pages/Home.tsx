@@ -29,7 +29,7 @@ export const Home = () => {
   return (
     <>
       <HeaderRow>
-        <Typography variant="h1">All Offices</Typography>
+        <Typography variant="h2">All Offices</Typography>
       </HeaderRow>
       {offices.map(office => (
         <Card

@@ -25,7 +25,7 @@ export const StaffMemberActions = ({ isOpen, onClose, member, onEdit, onDelete }
             <BackButton onClick={() => setShowDeleteConfirmation(false)}>
               <img src={backArrow} alt="Go back" width={24} height={24} />
             </BackButton>
-            <Typography variant="h2">
+            <Typography variant="h4">
               Are you sure you want to delete staff member?
             </Typography>
           </TitleContainer>

@@ -30,7 +30,7 @@ export const AvatarPalette = ({ name, value, onChange, onBlur, error }: AvatarPa
 
   return (
     <PaletteContainer>
-      <Typography variant="h2">Avatar</Typography>
+      <Typography color="#000000" variant="h3-semibold">Avatar</Typography>
       <Container>
         {avatars.map((avatar) => (
           <AvatarButton

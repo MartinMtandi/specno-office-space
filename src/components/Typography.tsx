@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-type TypographyVariant = 'h1' | 'h2' | 'h3' | 'body' | 'caption' | 'body-m';
+type TypographyVariant = 'h1' | 'h2' | 'h3' | 'h4' | 'body' | 'body-m' | 'sub-heading' | 'h3-semibold';
 
 interface TypographyProps {
   variant?: TypographyVariant;
@@ -15,44 +15,59 @@ interface StyledTypographyProps {
 
 const StyledTypography = styled.p<StyledTypographyProps>`
   margin: 0;
-  color: ${props => props.color || 'inherit'};
+  color: ${props => props.color || '#484954'};
   ${props => {
     switch (props.$variant) {
       case 'h1':
         return `
-          font-size: 24px;
-          font-weight: 700;
-          line-height: 32px;
+          font-size: 32px;
+          font-weight: 600;
+          line-height: 42px;
         `
       case 'h2':
         return `
-          font-size: 20px;
+          font-size: 28px;
           font-weight: 600;
-          line-height: 28px;
+          line-height: 34px;
         `
       case 'h3':
-        return `
-          font-size: 16px;
+      case 'h3-semibold': {
+        const h3BaseStyles = `
+          font-size: 24px;
+          line-height: 29px;
+        `;
+        return props.$variant === 'h3' ? `
+          ${h3BaseStyles}
+          font-weight: 800;
+        ` : `
+          ${h3BaseStyles}
           font-weight: 600;
+        `
+      }
+      case 'h4':
+        return `
+          font-size: 20px;
+          font-weight: 700;
           line-height: 24px;
-       `
+          color: #000000;
+        `
       case 'body-m':
           return `
             font-size: 16px;
             font-weight: 400;
             line-height: 24px;
           `
-      case 'body':
+      case 'sub-heading':
         return `
-          font-size: 14px;
-          font-weight: 400;
-          line-height: 20px;
+          font-size: 18px;
+          font-weight: 500;
+          line-height: 22px;
         `
-      case 'caption':
+      case 'body':
         return `
           font-size: 12px;
           font-weight: 400;
-          line-height: 16px;
+          line-height: 14px;
         `
     }
   }}

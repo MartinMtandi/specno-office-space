@@ -26,7 +26,7 @@ const colors = [
 export const ColorPalette = ({ name, value = '#FFBE0B', onChange, onBlur }: ColorPaletteProps) => {
   return (
     <PaletteContainer>
-      <Typography variant="h1">Office Colour</Typography>
+      <Typography color="#000000" variant="h3-semibold">Office Colour</Typography>
       <Container>
         {colors.map((color) => (
           <ColorButton
