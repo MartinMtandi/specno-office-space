@@ -8,7 +8,7 @@ import phoneIcon from '../assets/icons/Phone.svg'
 import arrowDownIcon from '../assets/icons/arrow-down.svg'
 import editIcon from '../assets/icons/Edit.svg'
 import { Button } from './Button'
-import { useState } from 'react'
+import { useState, memo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Accent } from './Accent'
 import { theme } from '../theme'
@@ -24,7 +24,20 @@ interface CardProps {
   accent: string;
 }
 
-export const Card = ({
+const areEqual = (prevProps: CardProps, nextProps: CardProps) => {
+  return (
+    prevProps.id === nextProps.id &&
+    prevProps.companyName === nextProps.companyName &&
+    prevProps.totalStaff === nextProps.totalStaff &&
+    prevProps.phoneNumber === nextProps.phoneNumber &&
+    prevProps.emailAddress === nextProps.emailAddress &&
+    prevProps.officeCapacity === nextProps.officeCapacity &&
+    prevProps.companyAddress === nextProps.companyAddress &&
+    prevProps.accent === nextProps.accent
+  )
+}
+
+export const Card = memo(({
   id,
   companyName,
   totalStaff,
@@ -86,7 +99,7 @@ export const Card = ({
       </ExpandableContent>
     </CardContainer>
   )
-}
+}, areEqual)
 
 const CardContainer = styled.div`
   background: ${theme.colors.white};
