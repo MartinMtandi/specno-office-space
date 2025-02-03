@@ -15,7 +15,7 @@ import searchIcon from '../assets/icons/Search.svg'
 import { DeleteOfficeModal } from '../components/DeleteOfficeModal'
 import { theme } from '../theme'
 
-export const Office = () => {
+const Office = () => {
   const { id } = useParams()
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
@@ -313,3 +313,5 @@ const LogoContainer = styled.div`
     height: auto;
   }
 `
+
+export default Office

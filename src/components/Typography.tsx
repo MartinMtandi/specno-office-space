@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { memo } from 'react';
 import { theme } from '../theme';
 
 type TypographyVariant = 'h1' | 'h2' | 'h3' | 'h4' | 'body' | 'body-m' | 'sub-heading' | 'h3-semibold';
@@ -74,11 +75,19 @@ const StyledTypography = styled.p<StyledTypographyProps>`
   }}
 `;
 
-export const Typography = ({ variant = 'body', color, children }: TypographyProps) => {
+const areEqual = (prevProps: TypographyProps, nextProps: TypographyProps) => {
+  return (
+    prevProps.variant === nextProps.variant &&
+    prevProps.color === nextProps.color &&
+    prevProps.children === nextProps.children
+  )
+}
+
+export const Typography = memo(({ variant = 'body', color, children }: TypographyProps) => {
   const Component = variant === 'h1' ? 'h1' : variant === 'h2' ? 'h2' : variant === 'h3' ? 'h3' : 'p';
   return (
     <StyledTypography as={Component} $variant={variant} color={color}>
       {children}
     </StyledTypography>
   );
-};
+}, areEqual);

@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components'
+import { memo } from 'react'
 import { theme } from '../theme'
 
 interface ButtonProps {
@@ -20,7 +21,19 @@ interface StyledButtonProps {
 
 const minWidth = "200px";
 
-export const Button = ({ 
+const areEqual = (prevProps: ButtonProps, nextProps: ButtonProps) => {
+  return (
+    prevProps.text === nextProps.text &&
+    prevProps.icon === nextProps.icon &&
+    prevProps.isRotated === nextProps.isRotated &&
+    prevProps.variant === nextProps.variant &&
+    prevProps.type === nextProps.type &&
+    prevProps.className === nextProps.className &&
+    JSON.stringify(prevProps.style) === JSON.stringify(nextProps.style)
+  )
+}
+
+export const Button = memo(({ 
   text, 
   icon, 
   onClick, 
@@ -44,7 +57,7 @@ export const Button = ({
       {icon && <img src={icon} alt="" width={20} height={20} />}
     </ButtonContainer>
   )
-}
+}, areEqual)
 
 const ButtonContainer = styled.button<StyledButtonProps>`
   cursor: pointer;

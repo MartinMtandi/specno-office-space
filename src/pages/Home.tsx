@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import specnoLogo from '../assets/logo/SpecnoLogo_Blue.svg'
 import { theme } from '../theme'
 
-export const Home = () => {
+const Home = () => {
   const [offices, setOffices] = useState(getOffices())
 
   useEffect(() => {
@@ -83,3 +83,5 @@ const LogoContainer = styled.div`
     height: auto;
   }
 `
+
+export default Home
