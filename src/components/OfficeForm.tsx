@@ -6,6 +6,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { PageHeader } from './PageHeader'
 import { theme } from '../theme'
+import { toLowerCase, capitalizeEachWord } from '../services/stringUtils'
 
 interface OfficeFormProps {
   onUpdate?: (values: FormValues) => void;
@@ -60,13 +61,31 @@ export const OfficeForm = ({ onUpdate, onSave, onDelete, error, initialValues }:
     },
     validationSchema,
     onSubmit: (values) => {
+      const formattedValues = {
+        ...values,
+        officeName: capitalizeEachWord(values.officeName),
+        email: toLowerCase(values.email)
+      };
+      
       if (initialValues && onUpdate) {
-        onUpdate(values)
+        onUpdate(formattedValues)
       } else {
-        onSave(values)
+        onSave(formattedValues)
       }
     }
   })
+
+  // Handle email input change to show lowercase while typing
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    formik.setFieldValue('email', toLowerCase(value));
+  };
+
+  // Handle office name input change to show proper capitalization while typing
+  const handleOfficeNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    formik.setFieldValue('officeName', capitalizeEachWord(value));
+  };
 
   return (
     <>
@@ -82,7 +101,7 @@ export const OfficeForm = ({ onUpdate, onSave, onDelete, error, initialValues }:
           type="text"
           placeholder="Office Name"
           value={formik.values.officeName}
-          onChange={formik.handleChange}
+          onChange={handleOfficeNameChange}
           onBlur={formik.handleBlur}
           error={formik.touched.officeName ? formik.errors.officeName : undefined}
         />
@@ -100,7 +119,7 @@ export const OfficeForm = ({ onUpdate, onSave, onDelete, error, initialValues }:
           type="email"
           placeholder="Email Address"
           value={formik.values.email}
-          onChange={formik.handleChange}
+          onChange={handleEmailChange}
           onBlur={formik.handleBlur}
           error={formik.touched.email ? formik.errors.email : undefined}
         />

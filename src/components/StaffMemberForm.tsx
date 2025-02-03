@@ -11,6 +11,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { Office, updateOffice, updateMember, Member } from '../services/officeService'
 import { Typography } from './Typography'
 import { theme } from '../theme'
+import { capitalizeFirstLetter, cleanName } from '../services/stringUtils'
 
 interface StaffMemberFormProps {
   onClose: () => void;
@@ -26,13 +27,21 @@ interface StaffMemberValues {
 }
 
 const validationSchemaStep1 = Yup.object().shape({
-  firstName: Yup.string().required('First name is required'),
-  lastName: Yup.string().required('Last name is required'),
+  firstName: Yup.string()
+    .required('First name is required')
+    .matches(/^[a-zA-Z\s-]*$/, 'Only letters, spaces, and hyphens are allowed'),
+  lastName: Yup.string()
+    .required('Last name is required')
+    .matches(/^[a-zA-Z\s-]*$/, 'Only letters, spaces, and hyphens are allowed'),
 })
 
 const validationSchemaStep2 = Yup.object().shape({
-  firstName: Yup.string().required('First name is required'),
-  lastName: Yup.string().required('Last name is required'),
+  firstName: Yup.string()
+    .required('First name is required')
+    .matches(/^[a-zA-Z\s-]*$/, 'Only letters, spaces, and hyphens are allowed'),
+  lastName: Yup.string()
+    .required('Last name is required')
+    .matches(/^[a-zA-Z\s-]*$/, 'Only letters, spaces, and hyphens are allowed'),
   avatar: Yup.string().required('Please select an avatar')
 })
 
@@ -49,6 +58,7 @@ export const StaffMemberForm = ({ onClose, onSubmit, office, initialValues }: St
     validationSchema: step === 1 ? validationSchemaStep1 : validationSchemaStep2,
     validateOnMount: false,
     validateOnChange: true,
+    validateOnBlur: true,
     onSubmit: async (values) => {
       if (step === 1) {
         if (values.firstName && values.lastName) {
@@ -58,28 +68,28 @@ export const StaffMemberForm = ({ onClose, onSubmit, office, initialValues }: St
       }
 
       try {
-        // Validate before submitting
         const errors = await formik.validateForm()
         if (Object.keys(errors).length > 0) {
           return
         }
 
+        const formattedFirstName = capitalizeFirstLetter(cleanName(values.firstName))
+        const formattedLastName = capitalizeFirstLetter(cleanName(values.lastName))
+
         if (initialValues) {
-          // Update existing member
           const updatedMember = {
             ...initialValues,
-            firstName: values.firstName,
-            lastName: values.lastName,
+            firstName: formattedFirstName,
+            lastName: formattedLastName,
             avatar: values.avatar
           }
           await updateMember(office.id, updatedMember)
           onSubmit(updatedMember)
         } else {
-          // Create new member
           const newMember = {
             id: uuidv4(),
-            firstName: values.firstName,
-            lastName: values.lastName,
+            firstName: formattedFirstName,
+            lastName: formattedLastName,
             avatar: values.avatar
           }
           const updatedOffice = {
@@ -95,6 +105,13 @@ export const StaffMemberForm = ({ onClose, onSubmit, office, initialValues }: St
       }
     }
   })
+
+  // Handle name input changes with immediate validation
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    formik.setFieldValue(name, value);
+    formik.setFieldTouched(name, true, true);
+  };
 
   return (
     <ModalContent>
@@ -118,17 +135,17 @@ export const StaffMemberForm = ({ onClose, onSubmit, office, initialValues }: St
                 name="firstName"
                 placeholder="First Name"
                 value={formik.values.firstName}
-                onChange={formik.handleChange}
+                onChange={handleNameChange}
                 onBlur={formik.handleBlur}
-                error={formik.touched.firstName ? formik.errors.firstName : undefined}
+                error={formik.touched.firstName && formik.errors.firstName ? formik.errors.firstName : undefined}
               />
               <Input
                 name="lastName"
                 placeholder="Last Name"
                 value={formik.values.lastName}
-                onChange={formik.handleChange}
+                onChange={handleNameChange}
                 onBlur={formik.handleBlur}
-                error={formik.touched.lastName ? formik.errors.lastName : undefined}
+                error={formik.touched.lastName && formik.errors.lastName ? formik.errors.lastName : undefined}
               />
             </>
           ) : (
