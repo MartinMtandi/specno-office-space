@@ -39,9 +39,12 @@ export const MainLayout = () => {
 
     updateOfficeData()
 
-    const intervalId = setInterval(updateOfficeData, 500)
+    // Listen for office updates
+    window.addEventListener('officeUpdated', updateOfficeData)
+    return () => {
+      window.removeEventListener('officeUpdated', updateOfficeData)
+    }
 
-    return () => clearInterval(intervalId)
   }, [location.pathname, id])
 
   const handleFloatingButtonClick = () => {

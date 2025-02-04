@@ -12,6 +12,7 @@ interface ButtonProps {
   type?: 'button' | 'submit' | 'reset';
   className?: string;
   style?: React.CSSProperties;
+  disabled?: boolean;
 }
 
 interface StyledButtonProps {
@@ -42,7 +43,8 @@ export const Button = memo(({
   children,
   type = 'button',
   className,
-  style
+  style,
+  disabled
 }: ButtonProps) => {
   return (
     <ButtonContainer 
@@ -52,6 +54,7 @@ export const Button = memo(({
       type={type}
       className={className}
       style={style}
+      disabled={disabled}
     >
       {text || children}
       {icon && <img src={icon} alt="" width={20} height={20} />}
