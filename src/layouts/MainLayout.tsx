@@ -39,6 +39,12 @@ export const MainLayout = () => {
 
     updateOfficeData()
 
+    // Listen for office updates
+    window.addEventListener('officeUpdated', updateOfficeData)
+    return () => {
+      window.removeEventListener('officeUpdated', updateOfficeData)
+    }
+
   }, [location.pathname, id])
 
   const handleFloatingButtonClick = () => {
