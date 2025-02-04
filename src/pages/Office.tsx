@@ -71,6 +71,29 @@ const Office = () => {
     setShowDeleteConfirmation(true)
   }
 
+  const handleSave = (values: Omit<OfficeType, 'id' | 'createdAt' | 'updatedAt' | 'members'>) => {
+    setError(null)
+    try {
+      const newOfficeData = {
+        ...values,
+        id: crypto.randomUUID(),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        members: []
+      }
+
+      saveOffice(newOfficeData)
+      window.dispatchEvent(new Event('officeUpdated'))
+      navigate(`/office/${newOfficeData.id}`)
+    } catch (error) {
+      if (error instanceof OfficeError) {
+        setError(error.message)
+      } else {
+        setError('Failed to create office')
+      }
+    }
+  }
+
   const handleUpdate = (values: Omit<OfficeType, 'id' | 'createdAt' | 'updatedAt' | 'members'>) => {
     setError(null)
     try {
@@ -94,29 +117,6 @@ const Office = () => {
         setError(error.message)
       } else {
         setError('Failed to update office')
-      }
-    }
-  }
-
-  const handleSave = (values: Omit<OfficeType, 'id' | 'createdAt' | 'updatedAt' | 'members'>) => {
-    setError(null)
-    try {
-      if (!office) return;
-
-      saveOffice({
-        ...values,
-        id: office.id,
-        createdAt: office.createdAt,
-        updatedAt: new Date().toISOString(),
-        members: office.members || []
-      })
-      setLastUpdate(Date.now())
-      navigate(`/office/${id}`)
-    } catch (error) {
-      if (error instanceof OfficeError) {
-        setError(error.message)
-      } else {
-        setError('Failed to save office')
       }
     }
   }
@@ -160,7 +160,26 @@ const Office = () => {
   }
 
   if (!office) {
-    return null
+    return (
+      <Container>
+        <PageHeader
+          title="New Office"
+          onBack={() => navigate('/')}
+        />
+        <OfficeForm
+          initialValues={{
+            officeName: '',
+            address: '',
+            email: '',
+            phone: '',
+            capacity: '0',
+            accent: '#000000'
+          }}
+          onUpdate={handleSave}
+          error={error}
+        />
+      </Container>
+    )
   }
 
   if (isEditMode && office) {

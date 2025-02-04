@@ -11,7 +11,7 @@ import { getOfficeById } from '../services/officeService'
 
 interface OfficeFormProps {
   onUpdate?: (values: FormValues) => void;
-  onSave: (values: FormValues) => void;
+  onSave?: (values: FormValues) => void;
   onDelete?: () => void;
   error?: string | null;
   initialValues?: FormValues;
@@ -45,7 +45,7 @@ const validationSchema = Yup.object({
     .required('Capacity is required')
     .positive('Capacity must be a positive number')
     .integer('Capacity must be a whole number')
-    .max(999999, 'Capacity is too large'),
+    .max(999, 'Capacity is too large'),
   accent: Yup.string()
     .required('Color is required')
 })
@@ -65,7 +65,7 @@ export const OfficeForm = ({ onUpdate, onSave, onDelete, error, initialValues }:
       const errors: { [key: string]: string } = {};
       
       // If editing an existing office, check if new capacity is less than current staff count
-      if (initialValues) {
+      if (initialValues && initialValues.id) {
         const currentOffice = getOfficeById(initialValues.id);
         if (currentOffice && parseInt(values.capacity) < currentOffice.members.length) {
           errors.capacity = `Capacity cannot be less than current staff count (${currentOffice.members.length})`;
@@ -84,7 +84,7 @@ export const OfficeForm = ({ onUpdate, onSave, onDelete, error, initialValues }:
       
       if (initialValues && onUpdate) {
         onUpdate(formattedValues)
-      } else {
+      } else if (onSave) {
         onSave(formattedValues)
       }
     }
