@@ -39,9 +39,6 @@ export const MainLayout = () => {
 
     updateOfficeData()
 
-    const intervalId = setInterval(updateOfficeData, 500)
-
-    return () => clearInterval(intervalId)
   }, [location.pathname, id])
 
   const handleFloatingButtonClick = () => {

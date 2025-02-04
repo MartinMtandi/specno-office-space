@@ -48,6 +48,7 @@ const validationSchemaStep2 = Yup.object().shape({
 export const StaffMemberForm = ({ onClose, onSubmit, office, initialValues }: StaffMemberFormProps) => {
   const [step, setStep] = useState(1)
   const [error, setError] = useState<string | null>(null)
+  const isAtCapacity = !initialValues && office.members.length >= parseInt(office.capacity)
 
   const formik = useFormik<StaffMemberValues>({
     initialValues: {
@@ -129,6 +130,7 @@ export const StaffMemberForm = ({ onClose, onSubmit, office, initialValues }: St
       <ModalBody>
         <Form onSubmit={formik.handleSubmit}>
           {error && <ErrorMessage>{error}</ErrorMessage>}
+          {isAtCapacity && <ErrorMessage>Office is at full capacity</ErrorMessage>}
           {step === 1 ? (
             <>
               <Input
@@ -138,6 +140,7 @@ export const StaffMemberForm = ({ onClose, onSubmit, office, initialValues }: St
                 onChange={handleNameChange}
                 onBlur={formik.handleBlur}
                 error={formik.touched.firstName && formik.errors.firstName ? formik.errors.firstName : undefined}
+                disabled={isAtCapacity}
               />
               <Input
                 name="lastName"
@@ -146,6 +149,7 @@ export const StaffMemberForm = ({ onClose, onSubmit, office, initialValues }: St
                 onChange={handleNameChange}
                 onBlur={formik.handleBlur}
                 error={formik.touched.lastName && formik.errors.lastName ? formik.errors.lastName : undefined}
+                disabled={isAtCapacity}
               />
             </>
           ) : (
@@ -163,7 +167,11 @@ export const StaffMemberForm = ({ onClose, onSubmit, office, initialValues }: St
             <Dot $active={step === 2} />
           </CarouselDots>
           <ButtonWrapper>
-            <Button type="submit" variant="primary">
+            <Button 
+              type="submit" 
+              variant="primary"
+              disabled={isAtCapacity && !initialValues}
+            >
               {step === 1 ? 'Next' : initialValues ? 'Update Staff Member' : 'Add Staff Member'}
             </Button>
           </ButtonWrapper>
@@ -249,6 +257,8 @@ const BackButton = styled.button`
 
 const ErrorMessage = styled.div`
   color: ${theme.colors.danger.main};
-  font-size: ${theme.fontSize.sm};
-  margin-bottom: ${theme.spacing.lg};
+  background: ${theme.colors.danger.light};
+  padding: ${theme.spacing.md};
+  border-radius: ${theme.layout.borderRadius.xs};
+  margin-bottom: ${theme.spacing.sm};
 `
