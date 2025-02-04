@@ -58,6 +58,8 @@ npm run dev
 yarn dev
 ```
 
+The application will be available at: http://localhost:5173/specno-office-space/
+
 Production build:
 ```bash
 npm run build
