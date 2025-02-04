@@ -76,13 +76,17 @@ const Office = () => {
     try {
       if (!office) return;
 
-      updateOffice({
+      const updatedOfficeData = {
         ...values,
         id: office.id,
         createdAt: office.createdAt,
         updatedAt: new Date().toISOString(),
         members: office.members || []
-      })
+      }
+
+      updateOffice(updatedOfficeData)
+      setOffice(updatedOfficeData)
+      window.dispatchEvent(new Event('officeUpdated'))
       setLastUpdate(Date.now())
       navigate(`/office/${id}`)
     } catch (error) {

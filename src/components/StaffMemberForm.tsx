@@ -5,7 +5,7 @@ import { Input } from './Input'
 import { AvatarPalette } from './AvatarPalette'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import arrowLeft from '../assets/icons/arrow-left.svg'
 import { v4 as uuidv4 } from 'uuid'
 import { Office, updateOffice, updateMember, Member } from '../services/officeService'
@@ -48,7 +48,11 @@ const validationSchemaStep2 = Yup.object().shape({
 export const StaffMemberForm = ({ onClose, onSubmit, office, initialValues }: StaffMemberFormProps) => {
   const [step, setStep] = useState(1)
   const [error, setError] = useState<string | null>(null)
-  const isAtCapacity = !initialValues && office.members.length >= parseInt(office.capacity)
+  const [isAtCapacity, setIsAtCapacity] = useState(!initialValues && office.members.length >= parseInt(office.capacity))
+
+  useEffect(() => {
+    setIsAtCapacity(!initialValues && office.members.length >= parseInt(office.capacity))
+  }, [office, initialValues])
 
   const formik = useFormik<StaffMemberValues>({
     initialValues: {
