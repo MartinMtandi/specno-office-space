@@ -173,7 +173,7 @@ src/
    - CSS-in-JS for better maintainability
 
 5. **Testing Strategy**
-   - Jest and React Testing Library
+   - Vitest and React Testing Library
    - Component-level unit tests
    - Mock service workers for API testing
 
