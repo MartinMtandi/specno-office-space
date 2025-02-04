@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { HashRouter, Routes, Route } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
 import { MainLayout } from './layouts/MainLayout'
 import { Spinner } from './components/Spinner'
@@ -12,7 +12,7 @@ const OfficeFormPage = lazy(() => import('./pages/OfficeFormPage'))
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <ThemeProvider theme={theme}>
         <Suspense fallback={<Spinner />}>
           <Routes>
@@ -25,7 +25,7 @@ function App() {
           </Routes>
         </Suspense>
       </ThemeProvider>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 
