@@ -151,6 +151,7 @@ const Office = () => {
       removeMemberFromOffice(office.id, member.id)
       const updatedOffice = getOfficeById(office.id)
       setOffice(updatedOffice || null)
+      window.dispatchEvent(new Event('officeUpdated'))
     }
   }
 

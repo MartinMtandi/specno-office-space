@@ -33,13 +33,14 @@ export const MainLayout = () => {
 
     const updateOfficeData = () => {
       const office = getOfficeById(id)
-      setShouldPulse(office?.members.length === 0)
-      setCurrentOffice(office || null)
+      if (office) {
+        setCurrentOffice(office)
+        setShouldPulse(office.members.length === 0)
+      }
     }
 
     updateOfficeData()
 
-    // Listen for office updates
     window.addEventListener('officeUpdated', updateOfficeData)
     return () => {
       window.removeEventListener('officeUpdated', updateOfficeData)
