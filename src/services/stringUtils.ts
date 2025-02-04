@@ -50,8 +50,9 @@ export const toLowerCase = (str: string): string => {
  */
 export const cleanName = (str: string): string => {
   if (!str) return str;
-  // Replace special characters and numbers with spaces, then remove extra spaces
-  return str.replace(/[^a-zA-Z\s-]/g, '').replace(/\s+/g, ' ').trim();
+  // Replace special characters and numbers with spaces, then normalize spaces
+  const cleaned = str.replace(/[^a-zA-Z\s-]/g, ' ').replace(/\s+/g, ' ').trim();
+  return cleaned;
 };
 
 /**
