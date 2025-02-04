@@ -28,6 +28,7 @@ const areEqual = (prevProps: ButtonProps, nextProps: ButtonProps) => {
     prevProps.icon === nextProps.icon &&
     prevProps.isRotated === nextProps.isRotated &&
     prevProps.variant === nextProps.variant &&
+    prevProps.children === nextProps.children &&
     prevProps.type === nextProps.type &&
     prevProps.className === nextProps.className &&
     JSON.stringify(prevProps.style) === JSON.stringify(nextProps.style)
