@@ -1,5 +1,5 @@
 import styled, { keyframes, css } from 'styled-components'
-import { Outlet, useNavigate, useLocation, useParams } from 'react-router-dom'
+import { Outlet, useNavigate, useLocation, useParams, useSearchParams } from 'react-router-dom'
 import unionIcon from '../assets/icons/Union.svg'
 import { Modal } from '../components/Modal'
 import { StaffMemberForm } from '../components/StaffMemberForm'
@@ -11,7 +11,9 @@ export const MainLayout = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const { id } = useParams()
-  const showFloatingButton = location.pathname === '/' || location.pathname.startsWith('/office/') && !location.pathname.endsWith('/new')
+  const [searchParams] = useSearchParams()
+  const isEditMode = searchParams.get('mode') === 'edit'
+  const showFloatingButton = (location.pathname === '/' || location.pathname.startsWith('/office/')) && !location.pathname.endsWith('/new') && !isEditMode
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [shouldPulse, setShouldPulse] = useState(false)
   const [currentOffice, setCurrentOffice] = useState<Office | null>(null)
