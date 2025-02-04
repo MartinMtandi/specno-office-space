@@ -11,7 +11,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { Office, updateOffice, updateMember, Member } from '../services/officeService'
 import { Typography } from './Typography'
 import { theme } from '../theme'
-import { capitalizeFirstLetter, cleanName } from '../services/stringUtils'
+import { capitalizeEachWord, cleanName } from '../services/stringUtils'
 
 interface StaffMemberFormProps {
   onClose: () => void;
@@ -73,8 +73,8 @@ export const StaffMemberForm = ({ onClose, onSubmit, office, initialValues }: St
           return
         }
 
-        const formattedFirstName = capitalizeFirstLetter(cleanName(values.firstName))
-        const formattedLastName = capitalizeFirstLetter(cleanName(values.lastName))
+        const formattedFirstName = capitalizeEachWord(cleanName(values.firstName))
+        const formattedLastName = capitalizeEachWord(cleanName(values.lastName))
 
         if (initialValues) {
           const updatedMember = {
