@@ -1,4 +1,4 @@
-import{d as s,t as r,j as a,T as g,m as y,B as p,b as v,x as C,y as u,z as $,A as j,I as m,C as h,D as f}from"./index-opTrD4oB.js";const B=["#FFBE0B","#FF9B71","#FB5607","#97512C","#DBBADD","#FF006E","#A9F0D1","#00B402","#489DDA","#0072E8","#8338EC"],F=({name:t,value:c="#FFBE0B",onChange:l,onBlur:o})=>a.jsxs(N,{children:[a.jsx(g,{color:"#000000",variant:"h3-semibold",children:"Office Colour"}),a.jsx(O,{children:B.map(n=>a.jsx(E,{$color:n,$isSelected:c===n,onClick:()=>{l(n),o==null||o()},type:"button",name:t,"aria-label":`Select color ${n}`},n))})]}),N=s.div`
+import{d as s,t as r,j as a,T as g,m as y,B as p,b as v,x as C,y as u,z as $,A as j,I as m,C as h,D as f}from"./index-u43Rvh0X.js";const B=["#FFBE0B","#FF9B71","#FB5607","#97512C","#DBBADD","#FF006E","#A9F0D1","#00B402","#489DDA","#0072E8","#8338EC"],F=({name:t,value:c="#FFBE0B",onChange:l,onBlur:o})=>a.jsxs(N,{children:[a.jsx(g,{color:"#000000",variant:"h3-semibold",children:"Office Colour"}),a.jsx(O,{children:B.map(n=>a.jsx(E,{$color:n,$isSelected:c===n,onClick:()=>{l(n),o==null||o()},type:"button",name:t,"aria-label":`Select color ${n}`},n))})]}),N=s.div`
   margin-top: 20px;
 `,E=s.button`
   width: 36px;
