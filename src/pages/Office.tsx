@@ -163,11 +163,12 @@ const Office = () => {
     return null
   }
 
-  if (isEditMode) {
+  if (isEditMode && office) {
     return (
       <Container>
         <OfficeForm
           initialValues={{
+            id: office.id,
             officeName: office.officeName,
             address: office.address,
             email: office.email,
@@ -176,7 +177,6 @@ const Office = () => {
             accent: office.accent
           }}
           onUpdate={handleUpdate}
-          onSave={handleSave}
           onDelete={handleDeleteClick}
           error={error}
         />

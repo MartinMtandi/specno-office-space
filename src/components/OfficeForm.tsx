@@ -7,6 +7,7 @@ import * as Yup from 'yup'
 import { PageHeader } from './PageHeader'
 import { theme } from '../theme'
 import { toLowerCase, capitalizeEachWord } from '../services/stringUtils'
+import { getOfficeById } from '../services/officeService'
 
 interface OfficeFormProps {
   onUpdate?: (values: FormValues) => void;
@@ -17,6 +18,7 @@ interface OfficeFormProps {
 }
 
 interface FormValues {
+  id?: string;
   officeName: string;
   address: string;
   email: string;
@@ -58,6 +60,19 @@ export const OfficeForm = ({ onUpdate, onSave, onDelete, error, initialValues }:
       phone: '',
       capacity: '',
       accent: '#FFBE0B'
+    },
+    validate: (values) => {
+      const errors: { [key: string]: string } = {};
+      
+      // If editing an existing office, check if new capacity is less than current staff count
+      if (initialValues) {
+        const currentOffice = getOfficeById(initialValues.id);
+        if (currentOffice && parseInt(values.capacity) < currentOffice.members.length) {
+          errors.capacity = `Capacity cannot be less than current staff count (${currentOffice.members.length})`;
+        }
+      }
+      
+      return errors;
     },
     validationSchema,
     onSubmit: (values) => {
