@@ -99,7 +99,7 @@ export const OfficeForm = ({ onUpdate, onSave, onDelete, error, initialValues }:
   // Handle office name input change to show proper capitalization while typing
   const handleOfficeNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    formik.setFieldValue('officeName', capitalizeEachWord(value));
+    formik.setFieldValue('officeName', value);
   };
 
   return (
