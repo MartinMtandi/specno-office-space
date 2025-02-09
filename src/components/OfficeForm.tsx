@@ -79,7 +79,8 @@ export const OfficeForm = ({ onUpdate, onSave, onDelete, error, initialValues }:
       const formattedValues = {
         ...values,
         officeName: capitalizeEachWord(values.officeName),
-        email: toLowerCase(values.email)
+        email: toLowerCase(values.email),
+        address: capitalizeEachWord(values.address)
       };
       
       if (initialValues && onUpdate) {
