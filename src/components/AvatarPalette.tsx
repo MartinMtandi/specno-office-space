@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { Typography } from './Typography';
 import avatar01 from '../assets/avatars/avatar01.svg'
 import avatar02 from '../assets/avatars/avatar02.svg'
@@ -7,7 +7,6 @@ import avatar04 from '../assets/avatars/avatar04.svg'
 import avatar05 from '../assets/avatars/avatar05.svg'
 import avatar06 from '../assets/avatars/avatar06.svg'
 import avatar07 from '../assets/avatars/avatar07.svg'
-import { theme } from '../theme'
 
 interface AvatarPaletteProps {
   name: string;
@@ -58,17 +57,17 @@ const PaletteContainer = styled.div`
   margin-top: 20px;
   display: flex;
   flex-direction: column;
-  gap: ${theme.layout.gap.xs};
+  gap: ${({theme}) => theme.layout.gap.xs};
 `
 
 const AvatarButton = styled.button<{ $isSelected: boolean }>`
   width: 60px;
   height: 60px;
-  border-radius: ${theme.layout.borderRadius.full};
+  border-radius: ${({theme}) => theme.layout.borderRadius.full};
   border: 4px solid transparent;
-  background: ${theme.colors.white};
+  background: ${({theme}) => theme.colors.white};
   cursor: pointer;
-  transition: ${theme.transitions.default};
+  transition: ${({theme}) => theme.transitions.default};
   position: relative;
   padding: 0;
   display: flex;
@@ -80,29 +79,29 @@ const AvatarButton = styled.button<{ $isSelected: boolean }>`
     transform: scale(1.1);
   }
 
-  ${props => props.$isSelected && `
-    border: 4px solid ${theme.colors.border.dark};
-    background: ${theme.colors.secondary.light};
+  ${props => props.$isSelected && css`
+    border: 4px solid ${({theme}) => theme.colors.border.dark};
+    background: ${({theme}) => theme.colors.secondary.light};
   `}
 `
 
 const AvatarImage = styled.img`
   width: 52px;
   height: 52px;
-  border-radius: ${theme.layout.borderRadius.full};
+  border-radius: ${({theme}) => theme.layout.borderRadius.full};
 `
 
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: ${theme.spacing.xxxl} ${theme.spacing.xl};
+  gap: ${({theme}) => theme.spacing.xxxl} ${({theme}) => theme.spacing.xl};
   justify-content: center;
-  margin-top: ${theme.spacing.xl};
+  margin-top: ${({theme}) => theme.spacing.xl};
 `
 
 const ErrorMessage = styled.div`
-  color: ${theme.colors.danger.main};
-  font-size: ${theme.fontSize.sm};
+  color: ${({theme}) => theme.colors.danger.main};
+  font-size: ${({theme}) => theme.fontSize.sm};
   text-align: center;
-  margin-top:  ${theme.spacing.sm};
+  margin-top:  ${({theme}) => theme.spacing.sm};
 `

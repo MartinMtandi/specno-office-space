@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { theme } from '../theme'
 
 interface AccentProps {
   color: string;
@@ -30,6 +29,6 @@ const AccentContainer = styled.div`
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border-top-left-radius: ${theme.layout.borderRadius.sm};
-  border-bottom-left-radius: ${theme.layout.borderRadius.sm};
+  border-top-left-radius: ${({theme}) => theme.layout.borderRadius.sm};
+  border-bottom-left-radius: ${({theme}) => theme.layout.borderRadius.sm};
 `

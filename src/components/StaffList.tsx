@@ -11,7 +11,6 @@ import moreDots from '../assets/icons/more-dots.svg'
 import { Member } from '../services/officeService'
 import { StaffMemberActions } from './StaffMemberActions'
 import { useState } from 'react'
-import { theme } from '../theme'
 
 const avatarMap = {
   avatar01,
@@ -72,8 +71,8 @@ export const StaffList = ({ members, onEditMember, onDeleteMember }: StaffListPr
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${theme.layout.gap.md};
-  padding: ${theme.spacing.lg} 0;
+  gap: ${({theme}) => theme.layout.gap.md};
+  padding: ${({theme}) => theme.spacing.lg} 0;
 `
 
 const Header = styled.div`
@@ -88,33 +87,33 @@ const List = styled.ul`
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: ${theme.layout.gap.sm};
+  gap: ${({theme}) => theme.layout.gap.sm};
 `
 
 const ListItem = styled.li`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap:  ${theme.layout.gap.sm};
-  padding: ${theme.spacing.sm} 0;
-  border-radius: ${theme.layout.borderRadius.sm};
+  gap:  ${({theme}) => theme.layout.gap.sm};
+  padding: ${({theme}) => theme.spacing.sm} 0;
+  border-radius: ${({theme}) => theme.layout.borderRadius.sm};
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: ${theme.colors.background.main};
+    background-color: ${({theme}) => theme.colors.background.main};
   }
 `
 
 const LeftContent = styled.div`
   display: flex;
   align-items: center;
-  gap: ${theme.layout.gap.sm}
+  gap: ${({theme}) => theme.layout.gap.sm}
 `
 
 const Avatar = styled.img`
   width: 40px;
   height: 40px;
-  border-radius: ${theme.layout.borderRadius.full};
+  border-radius: ${({theme}) => theme.layout.borderRadius.full};
 `
 
 const MemberInfo = styled.div`
@@ -125,16 +124,16 @@ const MemberInfo = styled.div`
 const MoreButton = styled.button`
   background: none;
   border: none;
-  padding: ${theme.spacing.sm};
+  padding: ${({theme}) => theme.spacing.sm};
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: ${theme.layout.borderRadius.full};
+  border-radius: ${({theme}) => theme.layout.borderRadius.full};
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: ${theme.colors.border.main};
+    background-color: ${({theme}) => theme.colors.border.main};
   }
 
   img {
