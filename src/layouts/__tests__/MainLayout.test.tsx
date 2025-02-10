@@ -1,6 +1,8 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render } from '@testing-library/react'
 import { MainLayout } from '../MainLayout'
+import { ThemeProvider } from 'styled-components'
+import { theme } from '../../theme'
 
 // Mock react-router-dom
 vi.mock('react-router-dom', () => ({
@@ -14,7 +16,11 @@ vi.mock('react-router-dom', () => ({
 
 describe('MainLayout', () => {
   it('renders without crashing', () => {
-    const { container } = render(<MainLayout />)
+    const { container } = render(
+      <ThemeProvider theme={theme}>
+        <MainLayout />
+      </ThemeProvider>
+    )
     expect(container).toBeDefined()
   })
 })
