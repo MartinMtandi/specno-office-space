@@ -5,7 +5,6 @@ import { Modal } from '../components/Modal'
 import { StaffMemberForm } from '../components/StaffMemberForm'
 import { useState, useEffect } from 'react'
 import { getOffices, getOfficeById, Office } from '../services/officeService'
-import { theme } from '../theme'
 
 export const MainLayout = () => {
   const navigate = useNavigate()
@@ -96,7 +95,7 @@ export const MainLayout = () => {
 
 const Wrapper = styled.div`
   width: 100%;
-  background-color: ${theme.colors.background.secondary};
+  background-color: ${({theme}) => theme.colors.background.secondary};
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -106,15 +105,15 @@ const Wrapper = styled.div`
 `
 
 const Container = styled.div`
-  max-width: ${theme.layout.maxContentWidth};
+  max-width: ${({theme}) => theme.layout.maxContentWidth};
   width: 100%;
-  background-color: ${theme.colors.background.main};
+  background-color: ${({theme}) => theme.colors.background.main};
   display: flex;
   flex-direction: column;
-  gap: ${theme.layout.gap.lg};
+  gap: ${({theme}) => theme.layout.gap.lg};
   min-height: 100vh;
-  padding: ${theme.layout.padding.page};
-  box-shadow: ${theme.shadows.md};
+  padding: ${({theme}) => theme.layout.padding.page};
+  box-shadow: ${({theme}) => theme.shadows.md};
   box-sizing: border-box;
   position: relative;
 `
@@ -134,18 +133,18 @@ const pulseAnimation = keyframes`
 const FloatingButton = styled.button<{ $shouldPulse: boolean }>`
   position: absolute;
   bottom: 20px;
-  right: max(20px, calc((100% - ${theme.layout.maxContentWidth}) / 2 + 20px));
+  right: max(20px, calc((100% - ${({theme}) => theme.layout.maxContentWidth}) / 2 + 20px));
   width: 56px;
   height: 56px;
-  border-radius: ${theme.layout.borderRadius.full};
-  background: ${theme.colors.primary.dark};
+  border-radius: ${({theme}) => theme.layout.borderRadius.full};
+  background: ${({theme}) => theme.colors.primary.dark};
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: ${theme.transitions.default};
-  box-shadow: ${theme.shadows.button};
+  transition: ${({theme}) => theme.transitions.default};
+  box-shadow: ${({theme}) => theme.shadows.button};
   animation: ${props => props.$shouldPulse ? css`${pulseAnimation} 2s infinite` : 'none'};
 
   &:hover {

@@ -1,6 +1,5 @@
 import styled, { css } from 'styled-components'
 import { memo } from 'react'
-import { theme } from '../theme'
 
 interface ButtonProps {
   text?: string;
@@ -68,106 +67,106 @@ const ButtonContainer = styled.button<StyledButtonProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: ${theme.layout.gap.xs};
+  gap: ${({theme}) => theme.layout.gap.xs};
   text-align: center;
   font-family: inherit;
-  transition: ${theme.transitions.default};
-  color: ${theme.colors.text.secondary};
+  transition: ${({theme}) => theme.transitions.default};
+  color: ${({theme}) => theme.colors.text.secondary};
 
   ${props => {
     switch (props.$variant) {
       case 'primary':
         return css`
-          background: ${theme.colors.primary.main};
+          background: ${({theme}) => theme.colors.primary.main};
           border: 1px solid transparent;
-          color: ${theme.colors.white};
-          padding: ${theme.layout.padding.button};
-          border-radius: ${theme.layout.borderRadius.full};
-          font-size: ${theme.fontSize.sm};
-          font-weight: ${theme.fontWeight.medium};
+          color: ${({theme}) => theme.colors.white};
+          padding: ${({theme}) => theme.layout.padding.button};
+          border-radius: ${({theme}) => theme.layout.borderRadius.full};
+          font-size: ${({theme}) => theme.fontSize.sm};
+          font-weight: ${({theme}) => theme.fontWeight.medium};
           text-transform: uppercase;
           justify-content: center;
           width: fit-content;
           min-width: ${minWidth};
 
           &:hover {
-            background: ${theme.colors.primary.light};
-            border-color: ${theme.colors.primary.main};
-            color: ${theme.colors.text.primary};
+            background: ${({theme}) => theme.colors.primary.light};
+            border-color: ${({theme}) => theme.colors.primary.main};
+            color: ${({theme}) => theme.colors.text.primary};
           }
         `
       case 'secondary':
         return css`
           background: transparent;
           border: 1px solid transparent;
-          color: ${theme.colors.primary.main};
-          padding: ${theme.layout.padding.button};
+          color: ${({theme}) => theme.colors.primary.main};
+          padding: ${({theme}) => theme.layout.padding.button};
           text-transform: uppercase;
-          border-radius: ${theme.layout.borderRadius.full};
-          font-size: ${theme.fontSize.sm};
-          font-weight: ${theme.fontWeight.medium};
+          border-radius: ${({theme}) => theme.layout.borderRadius.full};
+          font-size: ${({theme}) => theme.fontSize.sm};
+          font-weight: ${({theme}) => theme.fontWeight.medium};
           justify-content: center;
 
           &:hover {
-            background: ${theme.colors.secondary.light};
-            border-color: ${theme.colors.secondary.main};
-            color: ${theme.colors.secondary.dark};
+            background: ${({theme}) => theme.colors.secondary.light};
+            border-color: ${({theme}) => theme.colors.secondary.main};
+            color: ${({theme}) => theme.colors.secondary.dark};
           }
         `
       case 'danger':
         return css`
-          background: ${theme.colors.danger.main};
+          background: ${({theme}) => theme.colors.danger.main};
           border: 1px solid transparent;
-          color: ${theme.colors.white};
-          padding: ${theme.layout.padding.button};
+          color: ${({theme}) => theme.colors.white};
+          padding: ${({theme}) => theme.layout.padding.button};
           text-transform: uppercase;
-          border-radius: ${theme.layout.borderRadius.full};
-          font-size: ${theme.fontSize.sm};
-          font-weight: ${theme.fontWeight.medium};
+          border-radius: ${({theme}) => theme.layout.borderRadius.full};
+          font-size: ${({theme}) => theme.fontSize.sm};
+          font-weight: ${({theme}) => theme.fontWeight.medium};
           justify-content: center;
           width: fit-content;
           min-width: ${minWidth};
 
           &:hover {
-              background: ${theme.colors.danger.light};
-              border-color: ${theme.colors.danger.main};
-              color: ${theme.colors.danger.dark};
+              background: ${({theme}) => theme.colors.danger.light};
+              border-color: ${({theme}) => theme.colors.danger.main};
+              color: ${({theme}) => theme.colors.danger.dark};
           }
         `;
       case 'warning':
-          return `
+          return css`
             background: transparent;
             border: 1px solid transparent;
-            color: ${theme.colors.primary.main};
-            padding: ${theme.layout.padding.button};
+            color: ${({theme}) => theme.colors.primary.main};
+            padding: ${({theme}) => theme.layout.padding.button};
             text-transform: uppercase;
-            border-radius: ${theme.layout.borderRadius.full};
-            font-size: ${theme.fontSize.sm};
-            font-weight: ${theme.fontWeight.medium};
+            border-radius: ${({theme}) => theme.layout.borderRadius.full};
+            font-size: ${({theme}) => theme.fontSize.sm};
+            font-weight: ${({theme}) => theme.fontWeight.medium};
             justify-content: center;
             width: fit-content;
             min-width: ${minWidth};
 
             &:hover {
-              background: ${theme.colors.danger.light};
-              border-color: ${theme.colors.danger.main};
-              color: ${theme.colors.danger.dark};
+              background: ${({theme}) => theme.colors.danger.light};
+              border-color: ${({theme}) => theme.colors.danger.main};
+              color: ${({theme}) => theme.colors.danger.dark};
             }
         `
       case 'ghost':
         return css`
           background: none;
           border: none;
-          padding: ${theme.spacing.xs};
-          font-size: ${theme.fontSize.xs};
-          font-weight: ${theme.fontWeight.regular};
+          padding: ${({theme}) => theme.spacing.xs};
+          font-size: ${({theme}) => theme.fontSize.xs};
+          font-weight: ${({theme}) => theme.fontWeight.regular};
 
           &:hover {
-            color: ${theme.colors.ghost.main};
+            color: ${({theme}) => theme.colors.ghost.main};
           }
 
           img {
-            transition: ${theme.transitions.ease};
+            transition: ${({theme}) => theme.transitions.ease};
             transform: ${props.$isRotated ? 'rotate(0deg)' : 'rotate(180deg)'};
           }
         `;
@@ -175,24 +174,24 @@ const ButtonContainer = styled.button<StyledButtonProps>`
         return css`
           background: none;
           border: none;
-          color: ${theme.colors.secondary.dark};
-          padding: ${theme.spacing.sm};
-          font-size: ${theme.fontSize.md};
-          font-weight: ${theme.fontWeight.medium};
+          color: ${({theme}) => theme.colors.secondary.dark};
+          padding: ${({theme}) => theme.spacing.sm};
+          font-size: ${({theme}) => theme.fontSize.md};
+          font-weight: ${({theme}) => theme.fontWeight.medium};
 
           &:hover {
-            color: ${theme.colors.ghost.main};
+            color: ${({theme}) => theme.colors.ghost.main};
           }
         `;
       case 'close':
         return css`
           background: none;
           border: none;
-          padding: ${theme.spacing.sm};
-          color: ${theme.colors.secondary.dark};
+          padding: ${({theme}) => theme.spacing.sm};
+          color: ${({theme}) => theme.colors.secondary.dark};
 
           &:hover {
-            color: ${theme.colors.ghost.main};
+            color: ${({theme}) => theme.colors.ghost.main};
           }
         `;
       default:

@@ -13,7 +13,6 @@ import { StaffList } from '../components/StaffList'
 import { Input } from '../components/Input'
 import searchIcon from '../assets/icons/Search.svg'
 import { DeleteOfficeModal } from '../components/DeleteOfficeModal'
-import { theme } from '../theme'
 
 const Office = () => {
   const { id } = useParams()
@@ -299,38 +298,38 @@ const Office = () => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${theme.layout.gap.md};
+  gap: ${({theme}) => theme.layout.gap.md};
 `
 
 const SearchContainer = styled.div`
   width: 100%;
-  max-width: ${theme.layout.maxContentWidth};
+  max-width: ${({theme}) => theme.layout.maxContentWidth};
   margin: 0 auto;
-  padding-top: ${theme.spacing.sm};
+  padding-top: ${({theme}) => theme.spacing.sm};
 `
 
 const EmptyState = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: ${theme.colors.background.main};
-  border-radius: ${theme.layout.borderRadius.sm};
-  padding: 48px ${theme.spacing.xl};
-  margin-top: ${theme.spacing.lg};
+  background: ${({theme}) => theme.colors.background.main};
+  border-radius: ${({theme}) => theme.layout.borderRadius.sm};
+  padding: 48px ${({theme}) => theme.spacing.xl};
+  margin-top: ${({theme}) => theme.spacing.lg};
 `
 
 const EmptyStateContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: ${theme.layout.gap.md};
+  gap: ${({theme}) => theme.layout.gap.md};
   text-align: center;
-  color: ${theme.colors.text.muted};
+  color: ${({theme}) => theme.colors.text.muted};
 `
 
 const LogoContainer = styled.div`
   width: 200px;
-  margin-bottom: ${theme.spacing.sm};
+  margin-bottom: ${({theme}) => theme.spacing.sm};
 
   img {
     width: 100%;

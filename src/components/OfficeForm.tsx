@@ -5,7 +5,6 @@ import { ColorPalette } from './ColorPalette'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { PageHeader } from './PageHeader'
-import { theme } from '../theme'
 import { toLowerCase, capitalizeEachWord } from '../services/stringUtils'
 import { getOfficeById } from '../services/officeService'
 
@@ -182,24 +181,24 @@ export const OfficeForm = ({ onUpdate, onSave, onDelete, error, initialValues }:
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: ${theme.layout.gap.md};
-  max-width: ${theme.layout.maxContentWidth};
+  gap: ${({theme}) => theme.layout.gap.md};
+  max-width: ${({theme}) => theme.layout.maxContentWidth};
   margin: 0 auto;
 `
 
 const ButtonWrapper = styled.div`
   display: flex;
-  gap: ${theme.layout.gap.md};
+  gap: ${({theme}) => theme.layout.gap.md};
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: ${theme.spacing.xl};
+  margin-top: ${({theme}) => theme.spacing.xl};
 `
 
 const ErrorMessage = styled.div`
-  color: ${theme.colors.danger.main};
-  background: ${theme.colors.danger.light};
-  padding: ${theme.spacing.md};
-  border-radius: ${theme.layout.borderRadius.xs};
-  margin-bottom: ${theme.spacing.sm};
+  color: ${({theme}) => theme.colors.danger.main};
+  background: ${({theme}) => theme.colors.danger.light};
+  padding: ${({theme}) => theme.spacing.md};
+  border-radius: ${({theme}) => theme.layout.borderRadius.xs};
+  margin-bottom: ${({theme}) => theme.spacing.sm};
 `

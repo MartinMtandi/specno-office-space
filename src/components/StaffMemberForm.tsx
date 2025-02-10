@@ -10,7 +10,6 @@ import arrowLeft from '../assets/icons/arrow-left.svg'
 import { v4 as uuidv4 } from 'uuid'
 import { Office, updateOffice, updateMember, Member } from '../services/officeService'
 import { Typography } from './Typography'
-import { theme } from '../theme'
 import { capitalizeEachWord, cleanName } from '../services/stringUtils'
 
 interface StaffMemberFormProps {
@@ -189,24 +188,24 @@ const CarouselDots = styled.div`
   display: flex;
   justify-content: center;
   gap: 4px;
-  margin-top: ${theme.spacing.lg};
+  margin-top: ${({theme}) => theme.spacing.lg};
 `
 
 const Dot = styled.div<{ $active: boolean }>`
   width: 8px;
   height: 8px;
-  border-radius: ${theme.layout.borderRadius.full};
-  background-color: ${props => props.$active ? theme.colors.primary.main : 'transparent'};
-  border: 2px solid ${theme.colors.primary.main};
+  border-radius: ${({theme}) => theme.layout.borderRadius.full};
+  background-color: ${({ $active, theme }) => $active ? theme.colors.primary.main : 'transparent'};
+  border: 2px solid ${({theme}) => theme.colors.primary.main};
   transition: background-color 0.3s ease;
 `
 
 const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${theme.layout.gap.lg};
+  gap: ${({theme}) => theme.layout.gap.lg};
   position: relative;
-  border-radius: ${theme.layout.borderRadius.sm};
+  border-radius: ${({theme}) => theme.layout.borderRadius.sm};
 `
 
 const HeaderRow = styled.div`
@@ -218,40 +217,40 @@ const HeaderRow = styled.div`
 const HeaderLeft = styled.div`
   display: flex;
   align-items: center;
-  gap: ${theme.layout.gap.sm};
+  gap: ${({theme}) => theme.layout.gap.sm};
 `
 
 const ModalBody = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${theme.layout.gap.md};
+  gap: ${({theme}) => theme.layout.gap.md};
 `
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: ${theme.layout.gap.md};
+  gap: ${({theme}) => theme.layout.gap.md};
 `
 
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: ${theme.spacing.xxxl};
+  margin-top: ${({theme}) => theme.spacing.xxxl};
 `
 
 const BackButton = styled.button`
   background: none;
   border: none;
-  padding: ${theme.spacing.sm} ${theme.spacing.md} ${theme.spacing.sm} 0px;
+  padding: ${({theme}) => theme.spacing.sm} ${({theme}) => theme.spacing.md} ${({theme}) => theme.spacing.sm} 0px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: ${theme.layout.borderRadius.full};
+  border-radius: ${({theme}) => theme.layout.borderRadius.full};
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: ${theme.colors.secondary.light};
+    background-color: ${({theme}) => theme.colors.secondary.light};
   }
 
   img {
@@ -260,9 +259,9 @@ const BackButton = styled.button`
 `
 
 const ErrorMessage = styled.div`
-  color: ${theme.colors.danger.main};
-  background: ${theme.colors.danger.light};
-  padding: ${theme.spacing.md};
-  border-radius: ${theme.layout.borderRadius.xs};
-  margin-bottom: ${theme.spacing.sm};
+  color: ${({theme}) => theme.colors.danger.main};
+  background: ${({theme}) => theme.colors.danger.light};
+  padding: ${({theme}) => theme.spacing.md};
+  border-radius: ${({theme}) => theme.layout.borderRadius.xs};
+  margin-bottom: ${({theme}) => theme.spacing.sm};
 `

@@ -1,6 +1,5 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { memo } from 'react';
-import { theme } from '../theme';
 
 type TypographyVariant = 'h1' | 'h2' | 'h3' | 'h4' | 'body' | 'body-m' | 'sub-heading' | 'h3-semibold';
 
@@ -17,58 +16,58 @@ interface StyledTypographyProps {
 
 const StyledTypography = styled.p<StyledTypographyProps>`
   margin: 0;
-  color: ${props => props.color || theme.colors.text.secondary};
+  color: ${({ color, theme }) => color || theme.colors.text.secondary};
   ${props => {
     switch (props.$variant) {
       case 'h1':
-        return `
-          font-size: ${theme.fontSize.xxxl};
-          font-weight: ${theme.fontWeight.semiBold};
+        return css`
+          font-size: ${({theme}) => theme.fontSize.xxxl};
+          font-weight: ${({theme}) => theme.fontWeight.semiBold};
           line-height: 42px;
         `
       case 'h2':
-        return `
-          font-size: 28px;
-          font-weight: ${theme.fontWeight.semiBold};
+        return css`
+          font-size: ${({theme}) => theme.fontSize.xl};
+          font-weight: ${({theme}) => theme.fontWeight.semiBold};
           line-height: 34px;
         `
       case 'h3':
       case 'h3-semibold': {
-        const h3BaseStyles = `
-          font-size: ${theme.fontSize.xxl};
+        const h3BaseStyles = css`
+          font-size: ${({theme}) => theme.fontSize.xxl};
           line-height: 29px;
         `;
-        return props.$variant === 'h3' ? `
+        return props.$variant === 'h3' ? css`
           ${h3BaseStyles}
-          font-weight: ${theme.fontWeight.extraBold};
-        ` : `
+          font-weight: ${({theme}) => theme.fontWeight.extraBold};
+        ` : css`
           ${h3BaseStyles}
-          font-weight: ${theme.fontWeight.semiBold};
+          font-weight: ${({theme}) => theme.fontWeight.semiBold};
         `
       }
       case 'h4':
-        return `
-          font-size: ${theme.fontSize.xl};
-          font-weight: ${theme.fontWeight.bold};
+        return css`
+          font-size: ${({theme}) => theme.fontSize.xl};
+          font-weight: ${({theme}) => theme.fontWeight.bold};
           line-height: 24px;
           color: #000000;
         `
       case 'body-m':
-          return `
-            font-size: ${theme.fontSize.md};
-            font-weight: ${theme.fontWeight.regular};
+          return css`
+            font-size: ${({theme}) => theme.fontSize.md};
+            font-weight: ${({theme}) => theme.fontWeight.regular};
             line-height: 24px;
           `
       case 'sub-heading':
-        return `
-          font-size: ${theme.fontSize.lg};
-          font-weight: ${theme.fontWeight.medium};
+        return css`
+          font-size: ${({theme}) => theme.fontSize.lg};
+          font-weight: ${({theme}) => theme.fontWeight.medium};
           line-height: 22px;
         `
       case 'body':
-        return `
-          font-size: ${theme.fontSize.xs};
-          font-weight: ${theme.fontWeight.regular};
+        return css`
+          font-size: ${({theme}) => theme.fontSize.xs};
+          font-weight: ${({theme}) => theme.fontWeight.regular};
           line-height: 14px;
         `
     }

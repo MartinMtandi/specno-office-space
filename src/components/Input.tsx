@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { theme } from '../theme'
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: string;
@@ -20,40 +19,40 @@ export const Input = ({ error, icon, iconPosition = 'left', ...props }: InputPro
 }
 
 const StyledInput = styled.input<{ $hasIcon?: boolean; $iconPosition?: 'left' | 'right' }>`
-  padding: ${theme.spacing.lg};
+  padding: ${({theme}) => theme.spacing.lg};
   padding-${props => props.$iconPosition}: ${props => props.$hasIcon ? '40px' : '16px'};
-  border: 1px solid ${theme.colors.white};
-  border-radius: ${theme.layout.borderRadius.sm};
-  font-size: ${theme.fontSize.md};
-  color: ${theme.colors.ghost.main};
-  background: ${theme.colors.white};
+  border: 1px solid ${({theme}) => theme.colors.white};
+  border-radius: ${({theme}) => theme.layout.borderRadius.sm};
+  font-size: ${({theme}) => theme.fontSize.md};
+  color: ${({theme}) => theme.colors.ghost.main};
+  background: ${({theme}) => theme.colors.white};
   width: 100%;
-  transition: ${theme.transitions.default};
+  transition: ${({theme}) => theme.transitions.default};
 
   &:focus {
     outline: none;
-    border-color: ${theme.colors.border.main};
-    box-shadow: ${theme.shadows.input};
+    border-color: ${({theme}) => theme.colors.border.main};
+    box-shadow: ${({theme}) => theme.shadows.input};
   }
 
   &::placeholder {
-    color: ${theme.colors.ghost.light};
+    color: ${({theme}) => theme.colors.ghost.light};
   }
 
   &:disabled {
-    background: ${theme.colors.secondary.light};
+    background: ${({theme}) => theme.colors.secondary.light};
     cursor: not-allowed;
   }
 
   &:hover:not(:disabled) {
-    border-color: ${theme.colors.secondary.main};
+    border-color: ${({theme}) => theme.colors.secondary.main};
   }
 `
 
 const ErrorText = styled.span`
-  color: ${theme.colors.danger.main};
-  font-size: ${theme.fontSize.sm};
-  margin-top: ${theme.spacing.xs};
+  color: ${({theme}) => theme.colors.danger.main};
+  font-size: ${({theme}) => theme.fontSize.sm};
+  margin-top: ${({theme}) => theme.spacing.xs};
 `
 
 const InputContainer = styled.div`
@@ -70,13 +69,13 @@ const InputWrapper = styled.div`
 
 const IconWrapper = styled.div<{ $position?: 'left' | 'right' }>`
   position: absolute;
-  ${props => props.$position}: ${theme.spacing.md};
+  ${props => props.$position}: ${({theme}) => theme.spacing.md};
   top: 50%;
   transform: translateY(-50%);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${theme.colors.ghost.light};
+  color: ${({theme}) => theme.colors.ghost.light};
   width: 16px;
   height: 16px;
 

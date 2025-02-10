@@ -11,7 +11,6 @@ import { Button } from './Button'
 import { useState, memo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Accent } from './Accent'
-import { theme } from '../theme'
 
 interface CardProps {
   id: string
@@ -102,20 +101,20 @@ export const Card = memo(({
 }, areEqual)
 
 const CardContainer = styled.div`
-  background: ${theme.colors.white};
-  border-radius: ${theme.layout.borderRadius.sm};
-  padding: ${theme.layout.padding.card};
+  background: ${({theme}) => theme.colors.white};
+  border-radius: ${({theme}) => theme.layout.borderRadius.sm};
+  padding: ${({theme}) => theme.layout.padding.card};
   position: relative;
   cursor: pointer;
-  transition: ${theme.transitions.default};
+  transition: ${({theme}) => theme.transitions.default};
   display: flex;
   flex-direction: column;
-  gap: ${theme.layout.gap.sm};
-  box-shadow: ${theme.shadows.sm};
+  gap: ${({theme}) => theme.layout.gap.sm};
+  box-shadow: ${({theme}) => theme.shadows.sm};
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: ${theme.shadows.lg};
+    box-shadow: ${({theme}) => theme.shadows.lg};
   }
 `
 
@@ -129,7 +128,7 @@ const HeaderRow = styled.div`
 const InfoRow = styled.div`
   display: flex;
   align-items: center;
-  gap: ${theme.spacing.sm};
+  gap: ${({theme}) => theme.spacing.sm};
 
   img {
     opacity: 0.6;
@@ -141,7 +140,7 @@ const EditButton = styled.button`
   height: 20px;
   opacity: 0.6;
   cursor: pointer;
-  transition: ${theme.transitions.default};
+  transition: ${({theme}) => theme.transitions.default};
   background: none;
   border: none;
   padding: 0;
@@ -160,21 +159,21 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
-  border-top: 1px solid ${theme.colors.border.main};
-  padding-top: ${theme.spacing.sm};
+  border-top: 1px solid ${({theme}) => theme.colors.border.main};
+  padding-top: ${({theme}) => theme.spacing.sm};
 
   img {
-    transition: ${theme.transitions.default};
+    transition: ${({theme}) => theme.transitions.default};
   }
 `
 
 const ExpandableContent = styled.div<{ $isExpanded: boolean }>`
   display: flex;
   flex-direction: column;
-  gap: ${theme.layout.gap.sm};
+  gap: ${({theme}) => theme.layout.gap.sm};
   overflow: hidden;
   padding-bottom: ${props => props.$isExpanded ? '20px' : '0'};
   max-height: ${props => props.$isExpanded ? '500px' : '0'};
   opacity: ${props => props.$isExpanded ? '1' : '0'};
-  transition: ${theme.transitions.expand};
+  transition: ${({theme}) => theme.transitions.expand};
 `

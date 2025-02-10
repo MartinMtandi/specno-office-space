@@ -1,6 +1,5 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { Typography } from './Typography';
-import { theme } from '../theme';
 
 interface ColorPaletteProps {
   name: string;
@@ -55,27 +54,27 @@ const PaletteContainer = styled.div`
 const ColorButton = styled.button<{ $color: string; $isSelected: boolean }>`
   width: 36px;
   height: 36px;
-  border-radius: ${theme.layout.borderRadius.lg};
+  border-radius: ${({ theme }) => theme.layout.borderRadius.lg};
   border: none;
   background-color: ${props => props.$color};
   cursor: pointer;
-  transition: ${theme.transitions.default};
+  transition: ${({ theme }) => theme.transitions.default};
   position: relative;
 
   &:hover {
     transform: scale(1.1);
   }
 
-  ${props => props.$isSelected && `
-    border: 4px solid ${theme.colors.border.dark};
-    border-radius: ${theme.layout.borderRadius.lg};
+  ${props => props.$isSelected && css`
+    border: 4px solid ${({ theme }) => theme.colors.border.dark};
+    border-radius: ${({theme}) => theme.layout.borderRadius.lg};
   `}
 `
 
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: ${theme.layout.gap.xl} ${theme.layout.gap.lg};
+  gap: ${({ theme }) => theme.layout.gap.xl} ${({ theme }) => theme.layout.gap.lg};
   justify-content: center;
-  margin-top: ${theme.spacing.xl};
+  margin-top: ${({ theme }) => theme.spacing.xl};
 `

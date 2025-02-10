@@ -4,7 +4,6 @@ import { Card } from '../components/Card'
 import { getOffices } from '../services/officeService'
 import { useEffect, useState } from 'react'
 import specnoLogo from '../assets/logo/SpecnoLogo_Blue.svg'
-import { theme } from '../theme'
 
 const Home = () => {
   const [offices, setOffices] = useState(getOffices())
@@ -53,7 +52,7 @@ const HeaderRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: ${theme.spacing.md};
+  margin-bottom: ${({theme}) => theme.spacing.md};
 `
 
 const EmptyState = styled.div`
@@ -61,22 +60,22 @@ const EmptyState = styled.div`
   justify-content: center;
   align-items: center;
   min-height: calc(100vh - 48px);
-  color: ${theme.colors.text.muted};
-  margin: -${theme.spacing.xl};
+  color: ${({theme}) => theme.colors.text.muted};
+  margin: -${({theme}) => theme.spacing.xl};
 `
 
 const EmptyStateContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: ${theme.layout.gap.md};
+  gap: ${({theme}) => theme.layout.gap.md};
   text-align: center;
-  padding: ${theme.spacing.xl};
+  padding: ${({theme}) => theme.spacing.xl};
 `
 
 const LogoContainer = styled.div`
   width: 200px;
-  margin-bottom:  ${theme.spacing.xl};
+  margin-bottom:  ${({theme}) => theme.spacing.xl};
 
   img {
     width: 100%;
