@@ -164,3 +164,27 @@ export const updateMember = (officeId: string, updatedMember: Member): void => {
     throw error
   }
 }
+
+export const createOffice = (values: Omit<Office, 'id' | 'createdAt' | 'updatedAt' | 'members'>): Office => {
+  const newOfficeData = {
+    ...values,
+    id: crypto.randomUUID(),
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    members: []
+  }
+  saveOffice(newOfficeData)
+  return newOfficeData
+}
+
+export const updateOfficeData = (office: Office, values: Omit<Office, 'id' | 'createdAt' | 'updatedAt' | 'members'>): Office => {
+  const updatedOfficeData = {
+    ...values,
+    id: office.id,
+    createdAt: office.createdAt,
+    updatedAt: new Date().toISOString(),
+    members: office.members || []
+  }
+  updateOffice(updatedOfficeData)
+  return updatedOfficeData
+}
