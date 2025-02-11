@@ -1,12 +1,12 @@
 import styled from 'styled-components'
 import { Typography } from '../components/Typography'
 import { Card } from '../components/Card'
-import { getOffices } from '../services/officeService'
+import { getOffices, Office } from '../services/officeService'
 import { useEffect, useState } from 'react'
 import specnoLogo from '../assets/logo/SpecnoLogo_Blue.svg'
 
 const Home = () => {
-  const [offices, setOffices] = useState(getOffices())
+  const [offices, setOffices] = useState<Office[]>([])
 
   useEffect(() => {
     setOffices(getOffices())
