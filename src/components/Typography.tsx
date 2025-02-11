@@ -7,6 +7,7 @@ interface TypographyProps {
   variant?: TypographyVariant;
   color?: string;
   children: React.ReactNode;
+  onClick?: () => void;
 }
 
 interface StyledTypographyProps {
@@ -78,14 +79,15 @@ const areEqual = (prevProps: TypographyProps, nextProps: TypographyProps) => {
   return (
     prevProps.variant === nextProps.variant &&
     prevProps.color === nextProps.color &&
-    prevProps.children === nextProps.children
+    prevProps.children === nextProps.children &&
+    prevProps.onClick === nextProps.onClick
   )
 }
 
-export const Typography = memo(({ variant = 'body', color, children }: TypographyProps) => {
+export const Typography = memo(({ variant = 'body', color, children, onClick }: TypographyProps) => {
   const Component = variant === 'h1' ? 'h1' : variant === 'h2' ? 'h2' : variant === 'h3' ? 'h3' : 'p';
   return (
-    <StyledTypography as={Component} $variant={variant} color={color}>
+    <StyledTypography as={Component} $variant={variant} color={color} onClick={onClick}>
       {children}
     </StyledTypography>
   );

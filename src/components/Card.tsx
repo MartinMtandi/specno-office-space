@@ -58,7 +58,7 @@ export const Card = memo(({
     <CardContainer>
       <Accent color={accent} />
       <HeaderRow>
-        <Typography variant="h3">{companyName}</Typography>
+        <Typography onClick={() => navigate(`/office/${id}`)} variant="h3">{companyName}</Typography>
         <EditButton onClick={(e) => {
           e.stopPropagation();
           navigate(`/office/${id}?mode=edit`);
